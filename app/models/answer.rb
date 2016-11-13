@@ -1,3 +1,6 @@
+# frozen_string_literal: true
 class Answer < ApplicationRecord
-  validates :title, :body, presence: true
+  belongs_to :question
+
+  validates :body, :question_id, presence: true
 end
