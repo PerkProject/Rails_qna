@@ -27,6 +27,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before  { get :new }
 
     it 'renders new view' do
@@ -39,6 +41,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'valid question' do
       it 'creates new question in database' do
         expect do
