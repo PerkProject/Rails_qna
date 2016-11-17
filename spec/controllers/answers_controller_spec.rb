@@ -16,6 +16,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'valid answer' do
       let(:answer_params) { { answer: attributes_for(:answer), question_id: question } }
       it 'creates answer in database' do

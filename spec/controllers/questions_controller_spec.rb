@@ -51,7 +51,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to questions list' do
         post 'create', params: { question: attributes_for(:question) }
-        expect(response).to redirect_to(questions_url)
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
