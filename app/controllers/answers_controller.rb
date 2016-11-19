@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question, only: [:create]
 
   def new
@@ -14,6 +14,16 @@ class AnswersController < ApplicationController
       redirect_to @question
     else
       render :new
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.check_user(@answer)
+      @answer.destroy
+      redirect_to question_path(@answer.question)
+    else
+      redirect_to question_path(@answer.question)
     end
   end
 

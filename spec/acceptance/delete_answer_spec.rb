@@ -16,6 +16,7 @@ I want to be able to delete my answer
 
   scenario 'Author can delete your answer' do
     visit question_path(@question)
+    
     click_on 'Delete answer'
 
     expect(page).to_not have_content(@answer.body)
