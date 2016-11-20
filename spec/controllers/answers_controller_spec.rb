@@ -59,7 +59,6 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           delete :destroy, params: { id: @answer, question_id: @question }
         end.to change(Answer, :count).by(-1)
-        expect(@user.check_owner(@answer)).to match(true)
       end
 
       it 'redirects to question page' do

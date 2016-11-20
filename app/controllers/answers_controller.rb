@@ -10,6 +10,7 @@ class AnswersController < ApplicationController
       flash[:notice] = 'You answer successfully created.'
       redirect_to @question
     else
+      flash[:notice] = 'Answer is not created!'
       render :new
     end
   end

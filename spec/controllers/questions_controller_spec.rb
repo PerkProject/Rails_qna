@@ -83,7 +83,6 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'delete question' do
         expect { delete :destroy, params: { id: @question }}.to change(Question,:count).by(-1)
-        expect(@user.check_owner(@question)).to match(true)
       end
 
       it 'redirects to questions list' do

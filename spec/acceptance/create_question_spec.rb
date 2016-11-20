@@ -34,8 +34,9 @@ feature 'Create question', %q{
     click_on 'Ask question'
     fill_in 'Body', with: ''
     click_on 'Create'
+
     expect(current_path).to eq questions_path
-    expect(page).not_to have_content 'You question successfully created.'
+    expect(page).to have_content 'Question is not created!'
   end
 
 end

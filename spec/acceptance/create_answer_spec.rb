@@ -30,9 +30,11 @@ feature 'Create answer for question', %q{
   scenario 'Authenticated user submit invalid answer' do
     sign_in(user)
     visit question_path(question)
+
     fill_in 'Body', with: ''
     click_on 'Create answer'
 
+    expect(page).to have_content 'Answer is not created!'
     expect(page).not_to have_content 'You answer successfully created.'
   end
 
