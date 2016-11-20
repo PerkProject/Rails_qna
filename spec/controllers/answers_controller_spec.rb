@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+
   let(:question) { question = create(:question) }
 
   describe 'GET #new' do
@@ -17,8 +18,10 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
+
     context 'valid answer' do
       let(:answer_params) { { answer: attributes_for(:answer), question_id: question } }
+
       it 'creates answer in database' do
         expect do
           post :create, params: answer_params
@@ -33,6 +36,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'invalid answer' do
       let(:answer_params) { { answer: attributes_for(:invalid_answer), question_id: question } }
+
       it 'does not create answer in database' do
         expect do
           post :create, params: answer_params
@@ -55,11 +59,14 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'author delete you answer' do
+
       it 'delete answer in database' do
         expect do
           delete :destroy, params: { id: @answer, question_id: @question }
         end.to change(Answer, :count).by(-1)
+        expect(@user.check_user(@answer)).to match(true)
       end
+
       it 'redirects to question page' do
         delete :destroy, params: { id: @answer, question_id: @question }
         expect(response).to redirect_to @question
@@ -71,6 +78,7 @@ RSpec.describe AnswersController, type: :controller do
         sign_out(@user)
         sign_in create(:user)
       end
+
       it 'does not delete answer' do
         expect { delete :destroy, params: { id: @answer, question_id: @question }}.to_not change(Answer, :count)
       end

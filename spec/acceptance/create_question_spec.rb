@@ -28,4 +28,13 @@ feature 'Create question', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
+  scenario 'Authenticated user submit invalid question' do
+    sign_in(user)
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Body', with: ''
+    click_on 'Create'
+    expect(current_path).to eq questions_path
+  end
+
 end

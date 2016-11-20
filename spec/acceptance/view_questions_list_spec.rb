@@ -10,11 +10,14 @@ I want to be able see list question
 
   scenario 'Any user can see questions list' do
     list = create_list(:question, 3)
-    visit questions_url
+    visit questions_path
 
-    expect(page).to have_link("MyString")
-    have_css("li", :count => 2)
-    expect(page).to have_content question.title
+    list.each do |f|
+      expect(page).to have_link(f.title)
+      expect(page).to have_content f.title
+    end
+
+    have_css("li", :count => 3)
 
   end
 

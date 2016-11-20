@@ -21,10 +21,8 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     if current_user.check_user(@answer)
       @answer.destroy
-      redirect_to question_path(@answer.question)
-    else
-      redirect_to question_path(@answer.question)
     end
+    redirect_to question_path(@answer.question)
   end
 
   private

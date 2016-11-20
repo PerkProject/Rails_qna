@@ -26,4 +26,12 @@ feature 'Create answer for question', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
+  scenario 'Authenticated user submit invalid answer' do
+    sign_in(user)
+    visit question_path(question)
+    fill_in 'Body', with: ''
+    click_on 'Create answer'
+    expect(current_path).to eq question_answers_path(question)
+  end
+
 end
