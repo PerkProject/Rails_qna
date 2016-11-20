@@ -6,8 +6,8 @@ class User < ApplicationRecord
   has_many :questions
   has_many :answers
 
-  def check_user(question_or_answer)
-    question_or_answer.user_id == self.id
+  def check_owner(resource)
+    resource.user_id == self.id
   end
 
 end

@@ -17,6 +17,7 @@ feature 'Create answer for question', %q{
     click_on 'Create answer'
 
     expect(page).to have_content 'Test answer body'
+    expect(page).to have_content 'You answer successfully created.'
   end
 
   scenario 'Non-authenticated user ties to create answer' do
@@ -31,7 +32,8 @@ feature 'Create answer for question', %q{
     visit question_path(question)
     fill_in 'Body', with: ''
     click_on 'Create answer'
-    expect(current_path).to eq question_answers_path(question)
+
+    expect(page).not_to have_content 'You answer successfully created.'
   end
 
 end

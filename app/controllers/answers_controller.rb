@@ -3,14 +3,11 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question, only: [:create]
 
-  def new
-    @answer = Answer.new
-  end
-
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
+      flash[:notice] = 'You answer successfully created.'
       redirect_to @question
     else
       render :new
@@ -19,10 +16,11 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer = Answer.find(params[:id])
-    if current_user.check_user(@answer)
+    if current_user.check_owner(@answer)
+      flash[:notice] = 'Your answer successfully deleted.'
       @answer.destroy
     end
-    redirect_to question_path(@answer.question)
+    redirect_to @answer.question
   end
 
   private

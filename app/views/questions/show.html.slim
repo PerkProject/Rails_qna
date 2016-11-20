@@ -2,14 +2,14 @@
 p= @question.title
 p= @question.body
 
-p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_user(@question)
+p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
 
 h1 Answers:
 - @question.answers.each do |answer|
   ul
     li= answer.body
-    p= link_to 'Delete answer', answer, method: :delete, data: { confirm: "Delete your answer?" } if user_signed_in? && current_user.check_user(answer)
+    p= link_to 'Delete answer', answer, method: :delete, data: { confirm: "Delete your answer?" } if user_signed_in? && current_user.check_owner(answer)
 
 h1 Create you answer:
 = form_for [@question,Answer.new] do |f|

@@ -11,12 +11,12 @@ RSpec.describe User do
 
   context 'Validate authority of question' do
     it 'is author' do
-      expect(user.check_user(question)).to be true
+      expect(user.check_owner(question)).to be true
     end
 
     it 'is not author' do
       not_author = create(:user)
-      expect(not_author.check_user(question)).to be false
+      expect(not_author.check_owner(question)).to be false
     end
   end
 end

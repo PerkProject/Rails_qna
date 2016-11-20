@@ -17,7 +17,7 @@ feature 'author can delete your question', %q{
 
     click_on 'Delete question'
 
-    expect(page).to_not have_link 'Delete question'
+    expect(page).to_not have_content @question.title
     expect(page).to have_content 'Your question successfully deleted.'
   end
 

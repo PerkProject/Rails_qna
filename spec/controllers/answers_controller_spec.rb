@@ -4,18 +4,6 @@ RSpec.describe AnswersController, type: :controller do
 
   let(:question) { question = create(:question) }
 
-  describe 'GET #new' do
-    before  { get :new, params: { question_id: question.id } }
-
-    it 'renders new' do
-      expect(response).to render_template(:new)
-    end
-
-    it 'assigns new answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-  end
-
   describe 'POST #create' do
     sign_in_user
 
@@ -26,6 +14,13 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create, params: answer_params
         end.to change(question.answers, :count).by(1)
+
+      end
+
+      it 'persists an answer with author' do
+        expect do
+          post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        end.to change(@user.answers, :count).by(1)
       end
 
       it 'redirects to question page' do
@@ -64,7 +59,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           delete :destroy, params: { id: @answer, question_id: @question }
         end.to change(Answer, :count).by(-1)
-        expect(@user.check_user(@answer)).to match(true)
+        expect(@user.check_owner(@answer)).to match(true)
       end
 
       it 'redirects to question page' do

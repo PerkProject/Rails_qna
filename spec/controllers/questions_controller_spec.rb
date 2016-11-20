@@ -49,6 +49,12 @@ RSpec.describe QuestionsController, type: :controller do
         end.to change(Question, :count).by(1)
       end
 
+      it 'persists a question with author' do
+        expect do
+          post :create, params: { user_id: @user, question: attributes_for(:question) }
+        end.to change(@user.questions, :count).by(1)
+      end
+
       it 'redirects to questions list' do
         post 'create', params: { question: attributes_for(:question) }
         expect(response).to redirect_to question_path(assigns(:question))
@@ -77,7 +83,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'delete question' do
         expect { delete :destroy, params: { id: @question }}.to change(Question,:count).by(-1)
-        expect(@user.check_user(@question)).to match(true)
+        expect(@user.check_owner(@question)).to match(true)
       end
 
       it 'redirects to questions list' do
