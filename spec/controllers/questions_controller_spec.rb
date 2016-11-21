@@ -27,6 +27,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before  { get :new }
 
     it 'renders new view' do
@@ -39,6 +41,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'valid question' do
       it 'creates new question in database' do
         expect do
@@ -46,9 +49,15 @@ RSpec.describe QuestionsController, type: :controller do
         end.to change(Question, :count).by(1)
       end
 
+      it 'persists a question with author' do
+        expect do
+          post :create, params: { user_id: @user, question: attributes_for(:question) }
+        end.to change(@user.questions, :count).by(1)
+      end
+
       it 'redirects to questions list' do
         post 'create', params: { question: attributes_for(:question) }
-        expect(response).to redirect_to(questions_url)
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
@@ -64,5 +73,41 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template(:new)
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+
+    context 'Author delete your question' do
+      sign_in_user
+      before { @question = create(:question, user: @user) }
+
+      it 'delete question' do
+        expect { delete :destroy, params: { id: @question }}.to change(Question,:count).by(-1)
+      end
+
+      it 'redirects to questions list' do
+        delete :destroy, params: { id: @question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+   context 'Non-Author delete your question' do
+     sign_in_user
+     before do
+       @question = create(:question, user: @user)
+       sign_out @user
+       sign_in(create(:user))
+     end
+
+     it 'not delete question' do
+       expect { delete :destroy, params: { id: @question }}.to_not change(Question,:count)
+     end
+
+     it 'redirects to questions list' do
+       delete :destroy, params: { id: @question }
+       expect(response).to redirect_to questions_path
+     end
+   end
+
   end
 end
