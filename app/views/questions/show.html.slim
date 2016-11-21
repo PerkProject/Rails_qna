@@ -1,21 +1,18 @@
 
-p= @question.title
-p= @question.body
+div= @question.title
+div= @question.body
 
-p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
+div= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
 
-h1 Answers:
+div Answers:
 - @question.answers.each do |answer|
   ul
     li= answer.body
     p= link_to 'Delete answer', answer, method: :delete, data: { confirm: "Delete your answer?" } if user_signed_in? && current_user.check_owner(answer)
 
-h1 Create you answer:
+div
 = form_for [@question,Answer.new] do |f|
- = f.label :body
- = f.text_area :body
- = f.submit 'Create answer'
-
-
- p= link_to 'Back', questions_path
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Create answer'

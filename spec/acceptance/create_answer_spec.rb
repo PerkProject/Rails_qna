@@ -31,7 +31,6 @@ feature 'Create answer for question', %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: ''
     click_on 'Create answer'
 
     expect(page).to have_content 'Answer is not created!'
