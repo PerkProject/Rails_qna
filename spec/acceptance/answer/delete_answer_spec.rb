@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../../spec/acceptance/acceptance_helper'
 
 feature 'Delete answer', %q{
 In order only author can delete answer

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../../spec/acceptance/acceptance_helper'
 
 feature 'view questions list', %q{
 In order to be a list of questions
