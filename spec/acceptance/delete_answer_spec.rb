@@ -18,7 +18,6 @@ I want to be able to delete my answer
 
     click_on 'Delete answer'
 
-    expect(current_path).to eq question_path(question)
     expect(page).to_not have_content(answer.body)
   end
 

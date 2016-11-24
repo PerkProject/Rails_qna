@@ -8,7 +8,7 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     context 'valid answer' do
-      let(:answer_params) { { answer: attributes_for(:answer), question_id: question } }
+      let(:answer_params) { { answer: attributes_for(:answer), question_id: question, format: :js } }
 
       it 'creates answer in database' do
         expect do
@@ -19,18 +19,18 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'persists an answer with author' do
         expect do
-          post :create, params: { question_id: question, answer: attributes_for(:answer) }
+          post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         end.to change(@user.answers, :count).by(1)
       end
 
       it 'redirects to question page' do
         post :create, params: answer_params
-        expect(response).to redirect_to(question)
+        expect(response).to render_template :create
       end
     end
 
     context 'invalid answer' do
-      let(:answer_params) { { answer: attributes_for(:invalid_answer), question_id: question } }
+      let(:answer_params) { { answer: attributes_for(:invalid_answer), question_id: question, format: :js } }
 
       it 'does not create answer in database' do
         expect do
@@ -40,7 +40,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders new' do
         post :create, params: answer_params
-        expect(response).to render_template(:new)
+        expect(response).to render_template :create
       end
     end
   end

@@ -2,17 +2,19 @@
 div= @question.title
 div= @question.body
 
-div= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
+p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
+H2 Answers
+.answers
+  - @question.answers.each do |answer|
+    = render 'answers/answer', answer: answer
 
-div Answers:
-- @question.answers.each do |answer|
-  ul
-    li= answer.body
-    p= link_to 'Delete answer', answer, method: :delete, data: { confirm: "Delete your answer?" } if user_signed_in? && current_user.check_owner(answer)
+  - if user_signed_in?
+    = form_for [@question, @answer], remote: true do |f|
 
-div
-= form_for [@question,Answer.new] do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create answer'
+        p
+          = f.label :body
+        p
+          = f.text_area :body
+        p
+          = f.submit 'Create answer'
