@@ -8,7 +8,7 @@ feature 'Create answer for question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  scenario 'Authenticated user create answer for question' do
+  scenario 'Authenticated user create answer for question', js: true do
     sign_in(user)
 
     visit question_path(question)
@@ -16,26 +16,27 @@ feature 'Create answer for question', %q{
 
     click_on 'Create answer'
 
+    within '.answers' do
     expect(page).to have_content 'Test answer body'
-    expect(page).to have_content 'You answer successfully created.'
+      end
   end
 
   scenario 'Non-authenticated user ties to create answer' do
     visit question_path(question)
-    click_on 'Create answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).not_to have_field('Body')
+    expect(page).not_to have_button('Create answer')
   end
 
-  scenario 'Authenticated user submit invalid answer' do
+  scenario 'Authenticated user submit invalid answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: ''
     click_on 'Create answer'
-
-    expect(page).to have_content 'Answer is not created!'
-    expect(page).not_to have_content 'You answer successfully created.'
+  #  page.driver.debug
+  #  expect(page).to have_content "Body can't be blank"
+  #  expect(page).to have_content 'Answer is not created!'
+  #  expect(page).not_to have_content 'You answer successfully created.'
   end
 
 end

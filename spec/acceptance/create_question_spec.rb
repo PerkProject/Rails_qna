@@ -32,10 +32,12 @@ feature 'Create question', %q{
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Body', with: ''
     click_on 'Create'
 
     expect(current_path).to eq questions_path
+    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content "Title is too short (minimum is 5 characters)"
     expect(page).to have_content 'Question is not created!'
   end
 

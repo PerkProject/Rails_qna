@@ -21,6 +21,7 @@ module Qna
                        routing_specs: false,
                        request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      g.template_engine :slim
     end
   end
 end

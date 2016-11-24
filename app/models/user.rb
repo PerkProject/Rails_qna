@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -7,7 +8,6 @@ class User < ApplicationRecord
   has_many :answers
 
   def check_owner(resource)
-    resource.user_id == self.id
+    resource.user_id == id
   end
-
 end
