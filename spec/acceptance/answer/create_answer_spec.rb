@@ -34,9 +34,8 @@ feature 'Create answer for question', %q{
 
     click_on 'Create answer'
   #  page.driver.debug
-  #  expect(page).to have_content "Body can't be blank"
-  #  expect(page).to have_content 'Answer is not created!'
-  #  expect(page).not_to have_content 'You answer successfully created.'
+    expect(page).to have_content "Body can't be blank"
+    expect(page).not_to have_content 'You answer successfully created.'
   end
 
 end
