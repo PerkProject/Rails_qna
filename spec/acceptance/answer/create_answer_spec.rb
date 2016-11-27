@@ -12,13 +12,14 @@ feature 'Create answer for question', %q{
     sign_in(user)
 
     visit question_path(question)
-    fill_in 'Body', with: 'Test answer body'
 
+    within '.create-answers' do
+    fill_in 'Your answer', with: 'Test answer body'
     click_on 'Create answer'
-
-    within '.answers' do
+    end
+    #within '.answers' do
     expect(page).to have_content 'Test answer body'
-      end
+    #end
   end
 
   scenario 'Non-authenticated user ties to create answer' do

@@ -83,4 +83,35 @@ RSpec.describe AnswersController, type: :controller do
       end
       end
   end
+
+  describe 'PATCH update' do
+    sign_in_user
+
+    before do
+      @question = create(:question, user: @user)
+      @answer = create(:answer, question: @question, user: @user)
+    end
+
+    context 'author edit you answer' do
+
+      it 'edit answer with valid params' do
+        patch :update, id: @answer, question_id: @question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer)).to eq @answer
+      end
+
+      it 'edit answer with invalid params' do
+        patch :update, id: @answer, question_id: @question, format: :js, params: { id: @answer, answer: { body: nil} }
+        @answer.reload
+        expect(@answer.body).not_to eq nil
+      end
+
+      it 'assigns the question' do
+        patch :update, id: @answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq @question
+      end
+
+    end
+
+
+  end
 end

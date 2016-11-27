@@ -1,8 +1,0 @@
-- if answer.errors.any?
-  ul
-  - answer.errors.full_messages.each do |msg|
-    li= msg
-p
-    = answer.body
-    - if user_signed_in? && answer.user_id == current_user.id
-      = link_to 'Delete answer', answer,  method: :delete, data: { confirm: "Delete your answer?" }

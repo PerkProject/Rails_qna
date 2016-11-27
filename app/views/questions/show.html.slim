@@ -6,15 +6,16 @@ p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are 
 
 H2 Answers
 .answers
-  - @question.answers.each do |answer|
-    = render 'answers/answer', answer: answer
+    = render 'answers'
 
+
+.create-answers
   - if user_signed_in?
     = form_for [@question, @answer], remote: true do |f|
 
         p
-          = f.label :body
-        p
+          = f.label :body, 'Your answer'
+          .answer-errors
           = f.text_area :body
         p
           = f.submit 'Create answer'
