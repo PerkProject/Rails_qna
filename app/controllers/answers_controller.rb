@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :set_answer, only: [:destroy, :update]
+  before_action :set_answer, only: [:destroy, :update, :answer_best]
 
   def create
     @question = Question.find(params[:question_id])
@@ -24,6 +24,11 @@ class AnswersController < ApplicationController
   def update
     @answer.update(answer_params)
     @question = @answer.question
+  end
+
+  def answer_best
+    @question = @answer.question
+    @answer.mark_as_best if current_user.check_owner(@answer)
   end
 
   private

@@ -114,4 +114,36 @@ RSpec.describe AnswersController, type: :controller do
 
 
   end
+
+  describe 'GET #best' do
+    sign_in_user
+    before do
+      @question = create(:question, user: @user)
+      @answer = create(:answer, question: @question, user: @user)
+    end
+    context 'author of question' do
+      before do
+        @best = @answer.best
+        xhr :get, :answer_best, id: @answer.id, question_id: @question.id, format: :js
+      end
+      it 'assigns the requested answer to @answer' do
+        expect(assigns(:answer)).to eq @answer
+      end
+      it 'change answer accepted status' do
+        @answer.reload
+        expect(@answer.best).to eq !@best
+      end
+    end
+
+    context 'Non-author of question' do
+      it 'can not change the accepted status of answer' do
+        sign_out(@user)
+        sign_in(create(:user))
+        @best = @answer.best
+        xhr :get, :answer_best, id: @answer.id, question_id: @answer.question.id, format: :js
+        @answer.reload
+        expect(@answer.best).to eq @best
+      end
+    end
+  end
 end

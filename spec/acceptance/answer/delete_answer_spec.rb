@@ -28,8 +28,9 @@ I want to be able to delete my answer
 
     visit question_path(question)
 
-    expect(page).to have_content(answer.body)
-    expect(page).to_not have_link 'Delete answer'
+    within '.answer#' + "answer-#{answer.id}" do
+      expect(page).to_not have_link 'Delete answer'
+    end
   end
 
   scenario 'Non-authenticated user can not delete answer', js: true do
@@ -38,7 +39,8 @@ I want to be able to delete my answer
 
     visit question_path(question)
 
-    expect(page).to have_content(answer.body)
-    expect(page).to have_no_link('Delete answer', href: answer_path(answer))
+    within '.answer#' + "answer-#{answer.id}" do
+      expect(page).to_not have_link 'Delete answer'
+    end
   end
 end

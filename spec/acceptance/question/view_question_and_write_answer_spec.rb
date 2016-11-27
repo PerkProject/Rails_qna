@@ -13,10 +13,9 @@ I want to be able see view question with answer
 
     visit question_path(question)
 
-    list.each do |answer|
-    expect(page).to have_content answer.body
-    end
-    expect(page).to have_content question.title
+    list.each { |answer| expect(page).to have_content(answer.body) }
+    expect(page).to have_content(question.title)
+    expect(page).to have_content(question.body)
   end
 
 end
