@@ -19,7 +19,6 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer successfully deleted.'
       @answer.destroy
     end
-    redirect_to @answer.question
   end
 
   def update

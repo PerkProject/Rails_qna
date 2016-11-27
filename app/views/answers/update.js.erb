@@ -3,7 +3,7 @@
 $('.answer-errors').html('<%= j message %>');
 <% end %>
 <% else %>
-$('#answer-'+ '<%= @answer.id %>').find('.answers').html('<%= @answer.body %>');
+$('#answer-'+ '<%= @answer.id %>').find('.answer-body').html('<%= j @answer.body %>');
 $('form#edit-answer-' + '<%= @answer.id %>').hide();
 $('#answer-'+ '<%= @answer.id %>').find('.edit-answer-link').show();
 <% end %>
