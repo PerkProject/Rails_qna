@@ -20,11 +20,11 @@ feature 'Edit answer', %q{
   scenario 'Author edit his own answer', js: true do
     sign_in(user)
     visit question_path(question)
-save_and_open_page
+
     click_on 'Edit'
 
-    within '.answer' do
-      fill_in 'Body', with: 'EditAnswerText'
+    within '.answers' do
+      fill_in 'Answer', with: 'EditAnswerText'
       click_on 'Save'
 
       expect(page).to have_content 'EditAnswerText'
@@ -38,9 +38,9 @@ save_and_open_page
 
     click_on 'Edit'
 
-    within '.answer' do
-    fill_in 'Body', with: ''
-    click_on 'Save'
+    within '.edit-answer-form' do
+     fill_in 'Answer' , with: ''
+     click_on 'Save'
     end
 
     expect(page).to have_content "Body can't be blank"

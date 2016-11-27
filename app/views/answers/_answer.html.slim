@@ -1,0 +1,17 @@
+- if answer.persisted?
+  .answer id="answer-#{answer.id}"
+    .answer-body = answer.body
+
+- if user_signed_in? && answer.user_id == current_user.id
+  = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+  = link_to 'Delete answer', answer, class: 'edit-answer-link btn btn-sm', method: :delete, data: {confirm: "Delete your answer?"}
+  .offset-xs-4.col-xs-8
+  p= form_for answer, remote: true,
+    html: {class: "edit-answer-form" , id: "edit-answer-#{answer.id}"} do |f|
+
+    = f.label :body, 'Answer'
+    div.errors
+    = f.text_area :body
+    = f.submit 'Save', class:"btn btn-sm"
+hr
+
