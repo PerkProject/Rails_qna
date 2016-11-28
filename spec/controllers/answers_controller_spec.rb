@@ -109,30 +109,63 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, id: @answer, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:question)).to eq @question
       end
-
     end
 
+    context 'when not the author' do
+      sign_in_user
 
+      it 'assigns the requested answer to @answer' do
+        patch :update, params: {
+            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+        }
+        expect(assigns(:answer)).to eq(@answer)
+      end
+
+      it 'assigns the question' do
+        patch :update, params: {
+            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+        }
+        expect(assigns(:question)).to eq(@question)
+      end
+
+      it 'not change the answer attributes' do
+        before_body = @answer.body
+        patch :update, params: {
+            answer: { body: 'new body' }, question_id: question, id: @answer, format: :js
+        }
+        @answer.reload
+        expect(@answer.body).to eq(before_body)
+      end
+    end
   end
 
   describe 'GET #best' do
     sign_in_user
+
     before do
       @question = create(:question, user: @user)
       @answer = create(:answer, question: @question, user: @user)
     end
+
     context 'author of question' do
       before do
         @best = @answer.best
-        xhr :get, :answer_best, id: @answer.id, question_id: @question.id, format: :js
+        xhr :post, :answer_best, id: @answer.id, question_id: @question.id, format: :js
       end
+
       it 'assigns the requested answer to @answer' do
         expect(assigns(:answer)).to eq @answer
       end
+
       it 'change answer accepted status' do
         @answer.reload
         expect(@answer.best).to eq !@best
       end
+
+      it 'render best_answer template' do
+        expect(response).to render_template :answer_best
+      end
+
     end
 
     context 'Non-author of question' do
@@ -140,7 +173,7 @@ RSpec.describe AnswersController, type: :controller do
         sign_out(@user)
         sign_in(create(:user))
         @best = @answer.best
-        xhr :get, :answer_best, id: @answer.id, question_id: @answer.question.id, format: :js
+        xhr :post, :answer_best, id: @answer.id, question_id: @answer.question.id, format: :js
         @answer.reload
         expect(@answer.best).to eq @best
       end

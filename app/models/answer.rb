@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
   def mark_as_best
     Answer.transaction do
       question.answers.update_all(best:false)
-      raise ActiveRecord::Rollback unless question.answers.where(best: true).first.nil?
+      raise ActiveRecord::Rollback if question.answers.where(best: false).exists?(true)  #.first.nil?
       update(best:true)
     end
   end

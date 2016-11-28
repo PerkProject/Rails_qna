@@ -11,8 +11,8 @@
         = link_to 'make best', answer_best_answer_path(answer), method: :patch,
                 remote: true,
                 class: "make-best-button btn btn-sm btn-outline-info float-xs-right best-link"
-        br
-         .answer-body= answer.body
+      br
+      .answer-body= answer.body
 
 - if user_signed_in? && answer.user_id == current_user.id
   = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }

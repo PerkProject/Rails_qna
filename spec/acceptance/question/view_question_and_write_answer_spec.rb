@@ -6,7 +6,7 @@ As any user
 I want to be able see view question with answer
 } do
 
-  given(:question) {create(:question)}
+  given!(:question) {create(:question)}
 
   scenario 'Any user can view question and answer for him' do
     list = create_list(:answer,10, question: question)
