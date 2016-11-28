@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../../spec/acceptance/acceptance_helper'
 
 feature 'User sign up', %q{
 In order to be able to requires authentication

@@ -57,13 +57,13 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'delete answer in database' do
         expect do
-          delete :destroy, params: { id: @answer, question_id: @question }
+          delete :destroy, params: { id: @answer, question_id: @question }, format: :js
         end.to change(Answer, :count).by(-1)
       end
 
       it 'redirects to question page' do
-        delete :destroy, params: { id: @answer, question_id: @question }
-        expect(response).to redirect_to @question
+        delete :destroy, params: { id: @answer, question_id: @question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -74,13 +74,109 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'does not delete answer' do
-        expect { delete :destroy, params: { id: @answer, question_id: @question }}.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: @answer, question_id: @question }, format: :js}.to_not change(Answer, :count)
       end
 
       it 'redirect to question path' do
-        delete :destroy, params: { id: @answer, question_id: @question }
-        expect(response).to redirect_to @question
+        delete :destroy, params: { id: @answer, question_id: @question }, format: :js
+        expect(response).to render_template :destroy
       end
       end
+  end
+
+  describe 'PATCH update' do
+    sign_in_user
+
+    before do
+      @question = create(:question, user: @user)
+      @answer = create(:answer, question: @question, user: @user)
+    end
+
+    context 'author edit you answer' do
+
+      it 'edit answer with valid params' do
+        patch :update, id: @answer, question_id: @question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer)).to eq @answer
+      end
+
+      it 'edit answer with invalid params' do
+        patch :update, id: @answer, question_id: @question, format: :js, params: { id: @answer, answer: { body: nil} }
+        @answer.reload
+        expect(@answer.body).not_to eq nil
+      end
+
+      it 'assigns the question' do
+        patch :update, id: @answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq @question
+      end
+    end
+
+    context 'when not the author' do
+      sign_in_user
+
+      it 'assigns the requested answer to @answer' do
+        patch :update, params: {
+            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+        }
+        expect(assigns(:answer)).to eq(@answer)
+      end
+
+      it 'assigns the question' do
+        patch :update, params: {
+            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+        }
+        expect(assigns(:question)).to eq(@question)
+      end
+
+      it 'not change the answer attributes' do
+        before_body = @answer.body
+        patch :update, params: {
+            answer: { body: 'new body' }, question_id: question, id: @answer, format: :js
+        }
+        @answer.reload
+        expect(@answer.body).to eq(before_body)
+      end
+    end
+  end
+
+  describe 'GET #best' do
+    sign_in_user
+
+    before do
+      @question = create(:question, user: @user)
+      @answer = create(:answer, question: @question, user: @user)
+    end
+
+    context 'author of question' do
+      before do
+        @best = @answer.best
+        xhr :post, :answer_best, id: @answer.id, question_id: @question.id, format: :js
+      end
+
+      it 'assigns the requested answer to @answer' do
+        expect(assigns(:answer)).to eq @answer
+      end
+
+      it 'change answer accepted status' do
+        @answer.reload
+        expect(@answer.best).to eq !@best
+      end
+
+      it 'render best_answer template' do
+        expect(response).to render_template :answer_best
+      end
+
+    end
+
+    context 'Non-author of question' do
+      it 'can not change the accepted status of answer' do
+        sign_out(@user)
+        sign_in(create(:user))
+        @best = @answer.best
+        xhr :post, :answer_best, id: @answer.id, question_id: @answer.question.id, format: :js
+        @answer.reload
+        expect(@answer.best).to eq @best
+      end
+    end
   end
 end

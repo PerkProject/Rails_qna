@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../../spec/acceptance/acceptance_helper'
 
 feature 'User can sign out', %q{
 In order to be able to exit from site

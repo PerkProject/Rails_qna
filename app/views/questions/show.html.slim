@@ -1,20 +1,25 @@
-
+.col-xs-8
 div= @question.title
 div= @question.body
 
 p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
-H2 Answers
 .answers
-  - @question.answers.each do |answer|
-    = render 'answers/answer', answer: answer
+  - if @question.answers.count > 0
+    h3.text-muted= "Answers:"
+    ul.list-group= render @question.answers
 
+
+.create-answers
   - if user_signed_in?
+    .offset-xs-4.col-xs-8
     = form_for [@question, @answer], remote: true do |f|
-
-        p
-          = f.label :body
-        p
+      .form-group
+          = f.label :body, 'Your answer'
+          .answer-errors
           = f.text_area :body
-        p
-          = f.submit 'Create answer'
+          = f.submit 'Create answer', class: "btn btn-info float-xs-right"
+
+
+
+= link_to "Back to all Questions", questions_path

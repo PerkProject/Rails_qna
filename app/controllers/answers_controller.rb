@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :set_question, only: [:create]
+  before_action :set_answer, only: [:destroy, :update, :answer_best]
 
   def create
+    @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
     flash[:notice] = if @answer.save
@@ -14,18 +15,26 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
     if current_user.check_owner(@answer)
       flash[:notice] = 'Your answer successfully deleted.'
       @answer.destroy
     end
-    redirect_to @answer.question
+  end
+
+  def update
+    @answer.update(answer_params) if current_user.check_owner(@answer)
+    @question = @answer.question
+  end
+
+  def answer_best
+    @question = @answer.question
+    @answer.mark_as_best if current_user.check_owner(@answer)
   end
 
   private
 
-  def set_question
-    @question = Question.find(params[:question_id])
+  def set_answer
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params

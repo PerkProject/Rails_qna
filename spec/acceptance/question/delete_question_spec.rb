@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../../../spec/acceptance/acceptance_helper'
 
 feature 'author can delete your question', %q{
   In order only author can delete question

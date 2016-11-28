@@ -1,8 +1,29 @@
-- if answer.errors.any?
-  ul
-  - answer.errors.full_messages.each do |msg|
-    li= msg
-p
-    = answer.body
+- if answer.persisted?
+  .answer id="answer-#{answer.id}"
+   .blockquote
     - if user_signed_in? && answer.user_id == current_user.id
-      = link_to 'Delete answer', answer,  method: :delete, data: { confirm: "Delete your answer?" }
+      - if answer.best?
+        .card.float-xs-right
+        h3 Best answer
+        .div class=['better-link']
+          .answer-body = answer.body
+      - else
+        = link_to 'make best', answer_best_answer_path(answer), method: :patch,
+                remote: true,
+                class: "make-best-button btn btn-sm btn-outline-info float-xs-right best-link"
+      br
+      .answer-body= answer.body
+
+- if user_signed_in? && answer.user_id == current_user.id
+  = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+  = link_to 'Delete answer', answer, class: 'edit-answer-link btn btn-sm', method: :delete, remote: true, data: {confirm: "Delete your answer?"}
+  .offset-xs-4.col-xs-8
+  p= form_for answer, remote: true,
+    html: {class: "edit-answer-form" , id: "edit-answer-#{answer.id}"} do |f|
+
+    = f.label :body, 'Answer'
+    div.errors
+    = f.text_area :body
+    = f.submit 'Save', class:"btn btn-sm"
+hr
+
