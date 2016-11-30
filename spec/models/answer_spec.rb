@@ -12,6 +12,7 @@ RSpec.describe Answer, type: :model do
   context 'Validate changing answer best status' do
     it 'change the answer status' do
       answer.mark_as_best
+      answer.reload
       expect(answer).to be_best
     end
     it 'Change best status from answer and other answer not change' do
