@@ -23,6 +23,10 @@ p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are 
           = f.label :body, 'Your answer'
           .answer-errors
           = f.text_area :body
+           p Attachment
+          = f.fields_for :attachments do |a|
+            = a.label :file
+            = a.file_field :file
           = f.submit 'Create answer', class: "btn btn-info float-xs-right"
 
 
