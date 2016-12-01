@@ -35,6 +35,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template(:new)
     end
 
+    it 'builds new attachment for question' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'assigns new question model @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end

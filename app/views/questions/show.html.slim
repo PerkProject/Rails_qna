@@ -2,6 +2,11 @@
 div= @question.title
 div= @question.body
 
+p Attachments:
+ul.list-group
+  - @question.attachments.each do |a|
+    li= link_to a.file.identifier, a.file.url
+
 p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
 .answers

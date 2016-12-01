@@ -1,14 +1,21 @@
-h1 New question
 
-= form_for @question do |f|
-  - if @question.errors.any?
-    ul
-      - @question.errors.full_messages.each do |msg|
-        li= msg
+=render 'errors'
+.offset-xs-4.col-xs-8
+=form_for(@question) do |f|
+  h1 New question
+  .form-group
+  p
   = f.label :title
   = f.text_field :title
+  p
   = f.label :body
   = f.text_area :body
+  p Attachments:
+  p
+  = f.fields_for :attachments do |a|
+    = a.label :file
+    = a.file_field :file
+  p
   = f.submit 'Create'
 
 p
