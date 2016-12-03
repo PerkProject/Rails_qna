@@ -16,10 +16,12 @@
       ul
       - answer.attachments.each do |a|
         li= link_to a.file.identifier, a.file.url
+        p= link_to 'delete file', a , method: :delete, class: "btn btn-sm btn-info float-xs"
 
 - if user_signed_in? && answer.user_id == current_user.id
-  = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-  = link_to 'Delete answer', answer, class: 'edit-answer-link btn btn-sm', method: :delete, remote: true, data: {confirm: "Delete your answer?"}
+  div class="btn-group"
+  = link_to 'Edit answer', '', class: 'edit-answer-link btn ', data: { answer_id: answer.id }
+  = link_to 'Delete answer', answer, class: 'edit-answer-link btn ', method: :delete, remote: true, data: {confirm: "Delete your answer?"}
   .offset-xs-4.col-xs-8
   p= form_for answer, remote: true,
     html: {class: "edit-answer-form" , id: "edit-answer-#{answer.id}"} do |f|

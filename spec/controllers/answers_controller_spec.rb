@@ -27,6 +27,7 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: answer_params
         expect(response).to render_template :create
       end
+
     end
 
     context 'invalid answer' do

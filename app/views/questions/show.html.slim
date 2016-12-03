@@ -3,10 +3,10 @@ div= @question.title
 div= @question.body
 
 p Attachments:
-ul.list-group
+ul.list-group.attachments
   - @question.attachments.each do |a|
     li= link_to a.file.identifier, a.file.url
-
+    p= link_to 'delete file', a , method: :delete, class: "btn btn-sm btn-info float-xs"
 p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
 
 .answers
