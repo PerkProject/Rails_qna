@@ -10,6 +10,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_answer, class: Answer do
+    user
     question
     body nil
   end

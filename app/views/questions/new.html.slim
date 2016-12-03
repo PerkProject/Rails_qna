@@ -11,10 +11,7 @@
   = f.label :body
   = f.text_area :body
   p Attachments:
-  p
-  = f.fields_for :attachments do |a|
-    = a.label :file
-    = a.file_field :file
+  p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
   p
   = f.submit 'Create'
 
