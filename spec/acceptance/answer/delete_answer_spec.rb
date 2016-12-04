@@ -17,7 +17,7 @@ I want to be able to delete my answer
     visit question_path(question)
 
     click_on 'Delete answer'
-
+    page.reset!
     expect(page).to_not have_content(answer.body)
   end
 
