@@ -1,29 +1,33 @@
 - if answer.persisted?
   .answer id="answer-#{answer.id}"
-   .blockquote
-    - if user_signed_in? && answer.user_id == current_user.id
-      - if answer.best?
-        .card.float-xs-right
-        h3 Best answer
-        .div class=['better-link']
-          .answer-body = answer.body
-      - else
-        = link_to 'make best', answer_best_answer_path(answer), method: :patch,
-                remote: true,
-                class: "make-best-button btn btn-sm btn-outline-info float-xs-right best-link"
-      br
-      .answer-body= answer.body
+    .blockquote
 
-- if user_signed_in? && answer.user_id == current_user.id
-  = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-  = link_to 'Delete answer', answer, class: 'edit-answer-link btn btn-sm', method: :delete, remote: true, data: {confirm: "Delete your answer?"}
-  .offset-xs-4.col-xs-8
-  p= form_for answer, remote: true,
-    html: {class: "edit-answer-form" , id: "edit-answer-#{answer.id}"} do |f|
+        - if answer.best? && user_signed_in? && answer.user_id == current_user.id
+          .card.float-xs-right
+          h3 Best answer
+          .div class=['better-link']
+            .answer-body = answer.body
+        - else
+          = link_to 'make best', answer_best_answer_path(answer), method: :patch,
+                  remote: true,
+                  class: "make-best-button btn btn-sm btn-outline-info float-xs-right best-link" if user_signed_in?
+          br
+          .answer-body= answer.body
+        ul
+        - answer.attachments.each do |a|
+          li= link_to a.file.identifier, a.file.url
+          p= link_to 'delete file', a , method: :delete, class: "btn btn-sm btn-info float-xs" if user_signed_in? && answer.user_id == current_user.id
 
-    = f.label :body, 'Answer'
-    div.errors
-    = f.text_area :body
-    = f.submit 'Save', class:"btn btn-sm"
+  - if user_signed_in? && answer.user_id == current_user.id
+    div class="btn-group"
+    = link_to 'Edit answer', '', class: 'edit-answer-link btn ', data: { answer_id: answer.id }
+    = link_to 'Delete answer', answer, class: 'edit-answer-link btn ', method: :delete, remote: true, data: {confirm: "Delete your answer?"}
+    .offset-xs-4.col-xs-8
+    p= form_for answer, remote: true,
+            html: {class: "edit-answer-form" , id: "edit-answer-#{answer.id}"} do |f|
+
+      = f.label :body, 'Answer'
+      div.errors
+      = f.text_area :body
+      = f.submit 'Save', class:"btn btn-sm"
 hr
-

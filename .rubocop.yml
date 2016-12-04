@@ -9,6 +9,7 @@ AllCops:
     - 'config/**/*.rb'
     - 'lib/**/*.rb'
     - 'lib/**/*.rake'
+    - 'public/uploads/**/*'
   DisplayCopNames: true
 Rails:
   Enabled: true

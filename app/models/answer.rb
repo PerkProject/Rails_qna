@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class Answer < ApplicationRecord
+  include Attachable
   belongs_to :question
   belongs_to :user
 
@@ -9,9 +10,9 @@ class Answer < ApplicationRecord
 
   def mark_as_best
     Answer.transaction do
-      question.answers.update_all(best:false)
-      raise ActiveRecord::Rollback if question.answers.where(best: false).exists?(true)  #.first.nil?
-      update(best:true)
+      question.answers.update_all(best: false)
+      raise ActiveRecord::Rollback if question.answers.where(best: false).exists?(true)
+      update(best: true)
     end
   end
 end

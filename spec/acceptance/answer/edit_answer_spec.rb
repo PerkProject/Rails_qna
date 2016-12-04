@@ -14,31 +14,34 @@ feature 'Edit answer', %q{
   scenario "Non-authenticated user try to edit answer" do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit answer'
   end
 
   scenario 'Author edit his own answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Edit'
-
+    click_on 'Edit answer'
+    #page.driver.debug
     within '.answers' do
       fill_in 'Answer', with: 'EditAnswerText'
       click_on 'Save'
 
       expect(page).to have_content 'EditAnswerText'
       expect(page).to have_no_content answer.body
-      end
+
+    end
+
+
   end
 
   scenario 'Authenticated user make invalid answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Edit'
+    click_on 'Edit answer'
 
-    within '.edit-answer-form' do
+    within '.answers' do
      fill_in 'Answer' , with: ''
      click_on 'Save'
     end
@@ -51,7 +54,7 @@ feature 'Edit answer', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit answer'
   end
 
 end
