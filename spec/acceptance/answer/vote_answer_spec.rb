@@ -22,6 +22,11 @@ feature 'Vote answers', %q{
     within '.answers' do
       click_on '+'
       click_on '+'
+    end
+    
+    page.evaluate_script("window.location.reload()")
+
+    within '.answer-rating' do
       expect(page).to have_content '1'
     end
   end
@@ -31,6 +36,10 @@ feature 'Vote answers', %q{
     within '.answers' do
       click_on '-'
       click_on '-'
+    end
+    page.evaluate_script("window.location.reload()")
+
+    within '.answer-rating' do
       expect(page).to have_content '-1'
     end
   end
@@ -40,6 +49,11 @@ feature 'Vote answers', %q{
     within '.answers' do
       click_on '+'
       click_on 'cancel'
+    end
+
+    page.evaluate_script("window.location.reload()")
+
+    within '.answer-rating' do
       expect(page).to have_content '0'
     end
   end
@@ -51,13 +65,13 @@ feature 'Vote answers', %q{
     end
 
     scenario 'User try to vote up an answer', js: true do
-      within '.answers' do
+      within '.answer-rating' do
         expect(page).to_not have_content('+1')
       end
     end
 
     scenario 'User try to vote down an answer', js: true do
-      within '.answers' do
+      within '.answer-rating' do
         expect(page).to_not have_content('-1')
       end
     end

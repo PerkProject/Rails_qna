@@ -1,0 +1,10 @@
+- votable_klass = votable.class.name.downcase
+.col-xs-1
+.voting
+div class="#{votable_klass}-errors"
+div class="#{votable_klass}-rating"= "Rating: #{votable.rating}"
+- if user_signed_in? && !current_user.check_owner(votable)
+   = link_to '+', polymorphic_path([:voteup, votable]), method: :post, remote: true, class: "vote-#{votable_klass}-link", data: { type: :json }
+   = link_to '-', polymorphic_path([:votedown, votable]), method: :post, remote: true, class: "vote-#{votable_klass}-link", data: { type: :json }
+   = link_to 'cancel', polymorphic_path([:votedel, votable]), method: :delete, remote: true, class: "vote-#{votable_klass}-link", data: { type: :json }
+

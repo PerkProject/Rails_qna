@@ -8,6 +8,13 @@ ready = ->
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
 
+  $('.vote-answer-link').bind 'ajax:success', (e, data, status, xhr) ->
+   answer = $.parseJSON(xhr.responseText)
+   if(answer.status == 'success')
+     $('#answer-'+ answer.id + ' .voting .answer-errors').empty()
+     $('#answer-'+ answer.id + ' .voting .answer-rating').html('<p>Rating: ' + answer.rating + '</p>')
+   else
+     $('#answer-'+ answer.id + ' .voting .answer-errors').append(answer.data)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

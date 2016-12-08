@@ -7,12 +7,14 @@
           h3 Best answer
           .div class=['better-link']
             .answer-body = answer.body
+            = render partial: 'votes/voting', locals: { votable: answer }
         - else
           = link_to 'make best', answer_best_answer_path(answer), method: :patch,
                   remote: true,
                   class: "make-best-button btn btn-sm btn-outline-info float-xs-right best-link" if user_signed_in?
           br
           .answer-body= answer.body
+          = render partial: 'votes/voting', locals: { votable: answer }
         ul
         - answer.attachments.each do |a|
           li= link_to a.file.identifier, a.file.url

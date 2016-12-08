@@ -1,6 +1,8 @@
 require 'rails_helper'
+require 'shared_examples/controllers/voted_shared'
 
 RSpec.describe AnswersController, type: :controller do
+  it_should_behave_like 'voted'
 
   let(:question) { question = create(:question) }
 
