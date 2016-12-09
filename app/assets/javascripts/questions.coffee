@@ -5,11 +5,13 @@ ready = ->
   $('.vote-question-link').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     if(response.status = 'success')
-     $('.question-errors').empty()
-     $('.question-rating').html('<p>Rating: ' + response.rating + '</p>')
+     $('.voting .question-errors').empty() #не хочет обнулять
+     $('.voting .question-rating').html('<p>Rating: ' + response.rating + '</p>')
     else
-    $('.question-errors').append('<p>' + response.data + '</p>')
-
+    $('.voting .question-errors').append('<p>' + response.data + '</p>') #а добавлять - пожалуйста
+ #.bind 'ajax:error', (e, xhr, status, error) ->
+ #  response = $.parseJSON(xhr.responseText)
+ #  $('.voting .question-errors').html('<p>' + response.data + '</p>')
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

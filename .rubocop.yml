@@ -12,6 +12,7 @@ AllCops:
     - 'bin/**/*'
     - 'spec/**/*.rb'
     - 'lib/**/*.rake'
+    - 'public/uploads/**/*'
 
 Rails:
   Enabled: true

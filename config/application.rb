@@ -24,5 +24,7 @@ module Qna
       g.template_engine :slim
       g.helper false
     end
+
+    config.action_cable.url = 'ws://localhost:3000'
   end
 end

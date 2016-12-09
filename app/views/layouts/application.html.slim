@@ -4,17 +4,21 @@ html
     title Qna
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta charset="utf-8"
+    = Gon::Base.render_data
+    = action_cable_meta_tag
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
   body
+    .navbar-fixed
     p.notice= notice
     p.alert= alert
-    p
+    nav
       - if current_user
         = link_to 'Log out', destroy_user_session_path, method: :delete
       - else
         = link_to 'Sign in', new_user_session_path
         = link_to 'Sign up', new_user_registration_path
+  .container.main
     = yield
 
