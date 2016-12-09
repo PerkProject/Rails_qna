@@ -11,13 +11,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions do
+  resources :questions, concerns: [:votable] do
 
-    concerns :votable
-
-    resources :answers, shallow: true do
+    resources :answers, concerns: [:votable], shallow: true do
       patch :answer_best, on: :member
-      concerns :votable
     end
   end
 

@@ -23,8 +23,6 @@ feature 'Vote answers', %q{
       click_on '+'
       click_on '+'
     end
-    
-    page.evaluate_script("window.location.reload()")
 
     within '.answer-rating' do
       expect(page).to have_content '1'
@@ -37,7 +35,6 @@ feature 'Vote answers', %q{
       click_on '-'
       click_on '-'
     end
-    page.evaluate_script("window.location.reload()")
 
     within '.answer-rating' do
       expect(page).to have_content '-1'
@@ -50,8 +47,6 @@ feature 'Vote answers', %q{
       click_on '+'
       click_on 'cancel'
     end
-
-    page.evaluate_script("window.location.reload()")
 
     within '.answer-rating' do
       expect(page).to have_content '0'

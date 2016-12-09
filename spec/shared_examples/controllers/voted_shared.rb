@@ -24,6 +24,7 @@ RSpec.shared_examples 'voted' do
         process :voteup, method: :post, params: { id: votable }, format: :js
 
         error_json_response = {
+            id: votable.id,
             status: 'error',
             data: 'You can\'t vote because you owner this object'
         }.to_json
@@ -84,6 +85,7 @@ RSpec.shared_examples 'voted' do
 
         it 'renders JSON-response with 200 HTTP-header' do
           success_json_response = {
+              id: votable.id,
               status: 'success',
               rating: -1
           }.to_json
@@ -107,6 +109,7 @@ RSpec.shared_examples 'voted' do
           process :votedown, method: :post, params: { id: votable }, format: :js
 
           success_json_response = {
+              id: votable.id,
               status: 'error',
               data: 'You can vote only once'
           }.to_json
@@ -126,6 +129,7 @@ RSpec.shared_examples 'voted' do
 
       it 'renders JSON-response with 422 HTTP-header' do
         error_json_response = {
+            id: votable.id,
             status: 'error',
             data: 'You can\'t vote because you owner this object'
         }.to_json
@@ -153,6 +157,7 @@ RSpec.shared_examples 'voted' do
 
       it 'renders JSON-response with 200 HTTP-header', :skip_before do
         success_json_response = {
+            id: votable.id,
             status: 'success',
             rating: 0
         }.to_json
@@ -179,6 +184,7 @@ RSpec.shared_examples 'voted' do
 
       it 'renders JSON-response with 200 HTTP-header' do
         error_json_response = {
+            id: votable.id,
             status: 'error',
             data: 'Need vote first'
         }.to_json

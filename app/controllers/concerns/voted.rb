@@ -23,7 +23,7 @@ module Voted
       @votable.votedel(current_user)
       response_good_json
     else
-      render json: { status: 'error', data: 'Need vote first' }, status: :ok
+      render json: { id: @votable.id, status: 'error', data: 'Need vote first' }, status: :ok
     end
   end
 
@@ -38,18 +38,18 @@ module Voted
   end
 
   def response_good_json
-    render json: { status: 'success', rating: @votable.rating }, status: :ok
+    render json: { id: @votable.id, status: 'success', rating: @votable.rating }, status: :ok
   end
 
   def check_votable_owner
     if current_user.check_owner(@votable)
-      render json: { status: 'error', data: 'You can\'t vote because you owner this object' }, status: :forbidden
+      render json: { id: @votable.id, status: 'error', data: 'You can\'t vote because you owner this object' }, status: :forbidden
     end
   end
 
   def check_count_vote
     if @votable.check_vote(current_user)
-      render json: { status: 'error', data: 'You can vote only once' }, status: :ok
+      render json: { id: @votable.id, status: 'error', data: 'You can vote only once' }, status: :ok
     end
   end
 end

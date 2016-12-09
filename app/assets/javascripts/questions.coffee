@@ -5,9 +5,10 @@ ready = ->
   $('.vote-question-link').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     if(response.status = 'success')
+     $('.question-errors').empty()
      $('.question-rating').html('<p>Rating: ' + response.rating + '</p>')
     else
-    $(' .voting .question-errors').append('<p>' + response.data + '</p>')
+    $('.question-errors').append('<p>' + response.data + '</p>')
 
 
 $(document).ready(ready)
