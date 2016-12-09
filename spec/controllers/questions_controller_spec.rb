@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'shared_examples/controllers/voted_shared'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_should_behave_like 'voted'
+
   describe 'GET #index' do
     before { get :index }
 

@@ -1,7 +1,7 @@
 .col-xs-8
 div= @question.title
 div= @question.body
-
+=render partial: 'votes/voting', locals: { votable: @question }
 p Attachments:
 ul.list-group.attachments
   - @question.attachments.each do |a|

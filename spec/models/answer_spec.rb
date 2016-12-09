@@ -1,12 +1,15 @@
 require 'rails_helper'
+require 'shared_examples/models/attachable_shared'
+require 'shared_examples/models/votable_shared'
 
 RSpec.describe Answer, type: :model do
+  it_should_behave_like 'votable'
+  it_should_behave_like 'attachable'
+
   it { should belong_to :question }
-  it { should have_many :attachments }
   it { should have_db_index :question_id }
   it { should validate_presence_of :body }
   it { should validate_presence_of(:user_id)}
-  it { should accept_nested_attributes_for :attachments }
 
   let(:user){ create(:user) }
   let(:question) {create(:question, user: user)}

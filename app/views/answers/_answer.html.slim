@@ -1,12 +1,14 @@
 - if answer.persisted?
-  .answer id="answer-#{answer.id}"
-    .blockquote
-
+  .col-xs-20
+   .blockquote
+     .answer id="answer-#{answer.id}"
+        = render partial: 'votes/voting', locals: { votable: answer }
         - if answer.best? && user_signed_in? && answer.user_id == current_user.id
           .card.float-xs-right
           h3 Best answer
           .div class=['better-link']
             .answer-body = answer.body
+
         - else
           = link_to 'make best', answer_best_answer_path(answer), method: :patch,
                   remote: true,
