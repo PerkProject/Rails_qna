@@ -62,6 +62,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 
   gem 'better_errors'
   gem 'binding_of_caller'
