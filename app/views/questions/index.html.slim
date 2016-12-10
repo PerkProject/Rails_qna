@@ -1,8 +1,8 @@
-h1 Questions list:
+.page-header.h1 Questions list:
 - @questions.each do |question|
-  ul
+  ul.nav.nav-pills.nav-stacked
     li= link_to question.title, question_path(question)
 end
 
-div= link_to 'Ask question', new_question_path
+div= link_to 'Ask question', new_question_path, class: "btn btn-info"
 

@@ -1,6 +1,7 @@
 .col-xs-8
-div= @question.title
-div= @question.body
+.jumbotron
+ h1= @question.title
+ p= @question.body
 =render partial: 'votes/voting', locals: { votable: @question }
 p Attachments:
 ul.list-group.attachments
@@ -11,8 +12,8 @@ p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are 
 
 .answers
   - if @question.answers.count > 0
-    h3.text-muted= "Answers:"
-    ul.list-group= render @question.answers
+    h3.text-muted.list-group= "Answers:"
+    ul.list-group-item= render @question.answers
 
 
 .create-answers
@@ -22,11 +23,11 @@ p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are 
       .form-group
           = f.label :body, 'Your answer'
           .answer-errors
-          = f.text_area :body
+          = f.text_area :body, class: "form-control"
           p Attachments:
           p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
           = f.submit 'Create answer', class: "btn btn-info float-xs-right"
 
 
 
-= link_to "Back to all Questions", questions_path
+= link_to "Back to all Questions", questions_path, class: "btn btn-info"

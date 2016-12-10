@@ -31,12 +31,14 @@ gem 'jquery-turbolinks'
 # gem 'capistrano-rails', group: :development
 gem 'slim-rails'
 gem 'devise'
+gem 'devise-bootstrap-views'
 gem 'bootstrap', '~> 4.0.0.alpha5'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'skim'
 gem 'gon'
+gem 'sprockets', '3.6.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
