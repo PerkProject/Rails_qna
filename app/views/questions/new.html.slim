@@ -9,11 +9,11 @@
   = f.text_field :title
   p
   = f.label :body
-  = f.text_area :body
+  = f.text_area :body, class: "form-control"
   p Attachments:
   p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
   p
-  = f.submit 'Create'
+  = f.submit 'Create', class: "btn btn-info float-xs-right"
 
 p
 = link_to 'Back', questions_path

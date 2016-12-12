@@ -10,9 +10,11 @@ Rails.application.routes.draw do
       delete 'votedel'
     end
   end
-
-  resources :questions, concerns: [:votable] do
-    resources :answers, concerns: [:votable], shallow: true do
+  concern :commentable do
+    resources :comments, only: [:create]
+  end
+  resources :questions, concerns: [:votable, :commentable] do
+    resources :answers, concerns: [:votable, :commentable], shallow: true do
       patch :answer_best, on: :member
     end
   end
