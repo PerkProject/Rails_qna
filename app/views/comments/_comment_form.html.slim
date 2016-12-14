@@ -1,5 +1,0 @@
-.new-comment
-  = form_for [commentable, commentable.comments.create], remote: true, html: { class: 'new-comment-form' }, data: { type: :json } do |f|
-    = hidden_field :comment, :subject, value: commentable.class.name.downcase
-    = f.text_area :content, class: 'new-comment-form-input form-control', label: 'comment_body'
-    = f.submit 'save comment', class: 'new-comment-form_submit-button btn btn-info'

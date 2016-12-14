@@ -19,26 +19,27 @@ feature 'Add comment for answer', %q{
 
     scenario 'creates comment with valid data', js: true do
       within ".answers" do
-
+        click_on '+ Add comment'
         fill_in 'comment_content', with: 'test comment'
 
-        click_on 'save comment'
+        click_on 'Add comment'
       end
 
-      within '.comments-for-answer-list' do
+      within '.answers' do
         expect(page).to have_content('test comment')
       end
     end
 
     scenario 'creates comment with invalid data', js: true do
       within ".answers" do
+        click_on '+ Add comment'
 
         fill_in 'comment_content', with: ' '
 
-        click_on 'save comment'
+        click_on 'Add comment'
       end
 
-      within '.comments-for-answer-list' do
+      within '.answers' do
         expect(page).to_not have_content(' ')
       end
     end
@@ -75,17 +76,18 @@ feature 'Add comment for answer', %q{
 
       Capybara.using_session('authenticated_user_author_creator') do
         within ".answers" do
+          click_on '+ Add comment'
 
           fill_in 'comment_content', with: 'test comment'
 
-          click_on 'save comment'
+          click_on 'Add comment'
         end
       end
     end
 
     scenario 'authenticated guest', js: true do
       Capybara.using_session('authenticated_guest') do
-        within ".answers .comments-for-answer-list" do
+        within ".answers" do
           expect(page).to have_content 'test comment'
         end
       end
@@ -93,7 +95,7 @@ feature 'Add comment for answer', %q{
 
     scenario 'non-authenticated guest', js: true do
       Capybara.using_session('non_authenticated_guest') do
-        within ".answers .comments-for-answer-list" do
+        within ".answers" do
           expect(page).to have_content 'test comment'
         end
       end
@@ -101,7 +103,7 @@ feature 'Add comment for answer', %q{
 
     scenario 'authenticated author as reader', js: true do
       Capybara.using_session('authenticated_user_author_reader') do
-        within ".answers .comments-for-answer-list" do
+        within ".answers" do
           expect(page).to have_content 'test comment'
         end
       end

@@ -32,4 +32,5 @@
       div.errors
       = f.text_area :body , class: "form-control"
       = f.submit 'Save', class:"btn btn-sm"
+  = render 'comments/comments', resource: answer
 hr

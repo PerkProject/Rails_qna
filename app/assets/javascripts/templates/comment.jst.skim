@@ -1,0 +1,6 @@
+.comment
+  span.comment-body #{@body}
+  br
+  - if gon.current_user_id == @user_id
+      a class="comment-delete" data-confirm="Are you sure?" data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"
+        i class="fa fa-remove"

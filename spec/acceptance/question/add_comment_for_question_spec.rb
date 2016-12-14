@@ -17,29 +17,36 @@ feature 'add comment for question', %q{
       visit question_path(question)
     end
 
+   scenario 'can see "add comment" link', js: true do
+      within '.question' do
+        expect(page).to have_link '+ Add comment'
+      end
+    end
+
     scenario 'add comment with valid data', js: true do
       within '.question' do
+        click_on '+ Add comment'
+        fill_in 'Your comment', with: 'test comment'
 
-        fill_in 'comment_body', with: 'Test comment'
-
-        click_on 'save comment'
+        click_on 'Add comment'
       end
 
-      within '.comments-for-question-list' do
+      within '.comments-list' do
         expect(page).to have_content('Test comment')
       end
     end
 
     scenario 'creates comment with invalid data', js: true do
       within '.question' do
+        click_on '+ Add comment'
+        fill_in 'Your comment', with: ' '
 
-        fill_in 'comment_body', with: ' '
-
-        click_on 'save comment'
+        click_on 'Add comment'
       end
 
-      within '.comments-for-question-list' do
-        expect(page).to_not have_content(' ')
+      within '.alert-danger' do
+        expect(page).to have_content 'Errors prohibited this record from being saved:'
+        expect(page).to have_content "content can't be blank content is too short (minimum is 5 characters)"
       end
     end
   end
@@ -80,16 +87,17 @@ feature 'add comment for question', %q{
       Capybara.using_session('authenticated_author_creator') do
         within '.question' do
 
-          fill_in 'comment_body', with: 'test comment'
+          click_on '+ Add comment'
+          fill_in 'Your comment', with: 'test comment'
 
-          click_on 'save comment'
+          click_on 'Add comment'
         end
       end
     end
 
     scenario 'authenticated guest', js: true do
       Capybara.using_session('authenticated_guest') do
-        within '.comments-for-question-list' do
+        within '.question' do
           expect(page).to have_content 'test comment'
         end
       end
@@ -97,7 +105,7 @@ feature 'add comment for question', %q{
 
     scenario 'non-authenticated guest', js: true do
       Capybara.using_session('non_authenticated_guest') do
-        within '.comments-for-question-list' do
+        within '.question' do
           expect(page).to have_content 'test comment'
         end
       end
@@ -105,7 +113,7 @@ feature 'add comment for question', %q{
 
     scenario 'authenticated author as reader', js: true do
       Capybara.using_session('authenticated_author_reader') do
-        within '.comments-for-question-list' do
+        within '.question' do
           expect(page).to have_content 'test comment'
         end
       end

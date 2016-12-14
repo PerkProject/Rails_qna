@@ -1,74 +1,67 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
+  let(:question) { create(:question) }
+  let!(:comment) { create(:comment, commentable: question) }
+  sign_in_user
+
   describe 'POST #create' do
     context 'with valid attributes' do
-      sign_in_user
-
-      let(:answer) { create(:answer) }
-
-      before :each do
-        post :create, params: { comment: attributes_for(:comment), answer_id: answer }
+      it 'saves comment to db' do
+        expect { process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question },
+                         format: :json }.to change(question.comments, :count).by(1)
       end
 
-      it 'assigns new Comment to @comment' do
-        expect(assigns(:comment)).to eq(Comment.last)
-      end
-
-      it 'assigns requested commentable to @commentable' do
-        expect(assigns(:commentable)).to eq(answer)
-      end
-
-      it 'saves new comment attached to user' do
-        expect { post :create, params: { comment: attributes_for(:comment), answer_id: answer } }.to change(@user.comments, :count).by(1)
-      end
-
-      it 'saves new comment attached to commentable' do
-        expect { post :create, params: { comment: attributes_for(:comment), answer_id: answer } }.to change(answer.comments, :count).by(1)
-      end
-
-      it 'receives JSON response with 200 HTTP-header' do
-        success_response_json = {
-            status: 'success',
-            data: {
-                message: 'Comment save successfully',
-                comment: assigns(:comment)
-            }
-        }.to_json
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to eq(success_response_json)
+      it 'responds with json, status code 201 (created)' do
+        process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question },
+                format: :json
+        expect(response.content_type).to eq('application/json')
+        expect(response.status).to eq(201)
       end
     end
 
     context 'with invalid attributes' do
-      sign_in_user
-
-      let(:answer) { create(:answer) }
-
-      before do |example|
-        unless example.metadata[:skip_before]
-          post :create, params: { comment: attributes_for(:invalid_comment), answer_id: answer }
-        end
+      it 'does not save comment to db' do
+        expect { process :create, method: :post,
+                         params: { comment: attributes_for(:invalid_comment), question_id: question },
+                         format: :json }.to_not change(Comment, :count)
       end
 
-      it 'assigns requested commentable to @commentable' do
-        expect(assigns(:commentable)).to eq(answer)
-      end
-
-      it 'does not saves new question', skip_before: true do
-        expect { post :create, params: { comment: attributes_for(:invalid_comment), answer_id: answer } }.to_not change(Comment, :count)
-      end
-
-      it 'receives JSON response with 200 HTTP-header' do
-        error_response_json = {
-            status: 'error',
-            data: assigns(:comment).errors
-        }.to_json
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to eq(error_response_json)
+      it 'responds with status 422' do
+        process :create, method: :post, params: { comment: attributes_for(:invalid_comment), question_id: question },
+                format: :json
+        expect(response.status).to eq(422)
       end
     end
+  end
+
+  describe 'GET #new' do
+
+    before { get :new, xhr: true, params: { question_id: question }, format: :js }
+
+    it 'assigns question to @commentable' do
+      expect(assigns(:commentable)).to eq(question)
+    end
+
+    it 'assigns new Comment to @comment' do
+      expect(assigns(:comment)).to be_a_new(Comment)
+    end
+
+    it 'renders the new view' do
+      expect(response).to render_template :new
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:question) { create(:question) }
+    let!(:comment) { create(:comment, commentable: question) }
+    sign_in_user
+
+      let!(:users_comment) { create(:comment, commentable: question, user: @user) }
+
+      it 'deletes comment from db' do
+        expect { process :destroy, method: :delete, params: { id: users_comment.id }, format: :json }
+            .to change(question.comments, :count).by(-1)
+      end
   end
 end

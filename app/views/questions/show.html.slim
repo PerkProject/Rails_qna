@@ -4,11 +4,8 @@
 
   h1= @question.title
   p= @question.body
- = render partial: 'votes/voting', locals: { votable: @question }
- .comments.comments-for-question-list[data-question-id=@question.id]
- = render @question.comments
- .question-new-comment
- = render partial: 'comments/comment_form', locals: { commentable: @question } if user_signed_in? && current_user.check_owner(@question)
+  = render partial: 'votes/voting', locals: { votable: @question }
+  = render 'comments/comments', resource: @question if user_signed_in?
 
 p Attachments:
 ul.list-group.attachments

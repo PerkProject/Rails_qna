@@ -1,0 +1,18 @@
+.answer id="answer-#{@answer.id}"
+  .voting
+    .answer-errors
+    .answer-rating
+      p Rating: #{@answer.rating}
+    - if gon.user_id && (@answer.user.id != gon.user_id)
+      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/votes/voteup" +
+      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/votes/votedown" -
+      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@answer.id}/votes/votedel" cancel
+
+
+
+
+
+    - if gon.user_id && (gon.question_author_id == gon.user_id)
+      a class="make-best-button btn btn-sm btn-outline-info float-xs-right best-link" data-remote="true" rel="nofollow" data-method="patch" href="/answers/#{@answer.id}/answer_best" make best
+  br
+  .answer-body = @answer.body

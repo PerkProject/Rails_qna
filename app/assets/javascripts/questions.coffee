@@ -13,6 +13,14 @@ ready = ->
  #  response = $.parseJSON(xhr.responseText)
  #  $('.voting .question-errors').html('<p>' + response.data + '</p>')
 
+App.cable.subscriptions.create('QuestionsChannel',{
+  connected: ->
+    @perform 'follow'
+  ,
+  received: (data) ->
+    $('.questions-list').prepend(data)
+})
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)
