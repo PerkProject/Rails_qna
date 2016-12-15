@@ -13,12 +13,16 @@ ready = ->
  #  response = $.parseJSON(xhr.responseText)
  #  $('.voting .question-errors').html('<p>' + response.data + '</p>')
 
-App.cable.subscriptions.create('QuestionsChannel',{
+App.cable.subscriptions.create('QuestionsChannel', {
   connected: ->
-    @perform 'follow'
-  ,
+    console.log 'Connected to QuestionsChannel'
+    @perform 'follow_question'
+
   received: (data) ->
-    $('.questions-list').prepend(data)
+    console.log 'Received!', data
+    question = $.parseJSON(data)
+    console.log('User Id:', gon.user_id)
+    $('.list-questions').append(JST["question"]({question: question}));
 })
 
 $(document).ready(ready)

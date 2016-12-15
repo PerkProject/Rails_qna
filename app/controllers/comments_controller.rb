@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :get_comment, only: [:destroy]
   before_action :load_commentable, only: [:new, :create]
+  after_action :publish_comment, only: [:create]
 
   respond_to :json
   respond_to :js, only: [:new]
@@ -38,5 +39,13 @@ class CommentsController < ApplicationController
 
   def get_comment
     @comment = Comment.find(params[:id])
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+    ActionCable.server.broadcast(
+        "comments-question-#{@comment.root_id}",
+        render_to_string(template: 'comments/_comment.json.jbuilder')
+    )
   end
 end

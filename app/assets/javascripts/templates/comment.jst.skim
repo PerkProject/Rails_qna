@@ -1,6 +1,8 @@
 .comment
+  div id="comment_#{comment.id}"
   span.comment-body #{@body}
   br
   - if gon.current_user_id == @user_id
       a class="comment-delete" data-confirm="Are you sure?" data-remote="true" rel="nofollow" data-method="delete" href="/comments/#{@id}"
         i class="fa fa-remove"
+      a class="add-comment btn btn-default btn-sm" data-remote="true" href="/questions/#{@id}/comments/new" style="display: inline-block;" + Add comment
