@@ -1,13 +1,8 @@
-$('.add-comment').off('ajax:success').on('ajax:success', function() {
-  var $trigger = $(this),
-      $form = $trigger.closest('.comment-form');
-
-  $trigger.hide();
-  $form.append('<%= j render 'comments/form' %>');
+  var target = '<%= "#{@commentable.class.name}-#{@commentable.id}-comments" %>';
+  $('#' + target).append("<%= j render 'comments/form', commentable: @commentable, comment: @comment%> ");
 
   $form.on('click', '.cancel-comment', function(e) {
     e.preventDefault();
     $form.find('.row').remove();
     $trigger.show();
   });
-});

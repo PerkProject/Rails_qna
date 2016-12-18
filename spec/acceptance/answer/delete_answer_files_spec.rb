@@ -8,6 +8,7 @@ feature 'Delete files from answer', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:other_user) { create(:user) }
+  given!(:answer) { create(:answer, user: user, question: question) }
 
   background do
     sign_in(user)
@@ -41,7 +42,7 @@ feature 'Delete files from answer', %q{
       sign_in(other_user)
       visit question_path(question)
 
-      within '.attachments' do
+      within '.answers' do
         expect(page).not_to have_link('delete file')
       end
     end
@@ -55,7 +56,7 @@ feature 'Delete files from answer', %q{
     sign_out
     visit question_path(question)
 
-    within '.answers' do
+    within ("#answer-#{answer.id}") do
       expect(page).not_to have_link('delete file')
     end
   end

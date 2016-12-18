@@ -23,8 +23,8 @@ feature 'Delete files from question', %q{
       click_on 'Add file'
       attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
       click_on 'Create'
-
-      within '.attachments' do
+      #page.driver.debug
+      within '.question-attachments' do
         click_on 'delete file'
       end
 
@@ -39,7 +39,7 @@ feature 'Delete files from question', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    within '.attachments' do
+    within '.question-attachments' do
       expect(page).not_to have_link('delete file')
     end
   end
@@ -54,8 +54,8 @@ end
     sign_out
     visit question_path(question)
 
-    within '.attachments' do
-      expect(page).not_to have_link('Delete question')
+    within '.question-attachments' do
+      expect(page).not_to have_link('delete file')
   end
 end
 

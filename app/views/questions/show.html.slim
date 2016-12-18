@@ -1,30 +1,31 @@
-.col-xs-8
-.question
- .jumbotron
-
-  h1= @question.title
-  p= @question.body
-  = render partial: 'votes/voting', locals: { votable: @question }
-  = render 'comments/comments', resource: @question if user_signed_in?
-
-p Attachments:
-ul.list-group.attachments
-  - @question.attachments.each do |a|
-    li= link_to a.file.identifier, a.file.url
-    p= link_to 'delete file', a , method: :delete, class: "btn btn-sm btn-info float-xs"
-p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
-
-.answers
-  - if @question.answers.count > 0
-    h3.text-muted.list-group= "Answers:"
-    ul.list-group-item= render @question.answers
+h1#caption= @question.title
+#question data-id="#{@question.id}"
+  #question-body
+    p= @question.body
+    #question-buttons
+    = render 'buttons', question: @question
+    .div id= "question-#{@question.id}-rating"
+      = render partial: 'votes/voting', locals: { votable: @question }
+  = render 'edit_question_form', question: @question
+  |comments:
+  .div id="Question-#{@question.id}-comments" class = 'question-comments'
+    - if user_signed_in?
+    = render 'comments/comments', resource: @question if user_signed_in?
+  .div id="question-#{@question.id}-attachments" class = 'question-attachments'
+    = render 'attachments', question: @question
 
 
-.create-answers
-  - if user_signed_in?
-    .offset-xs-4.col-xs-8
-    = form_for [@question, @answer], remote: true do |f|
-      .form-group
+  .answers
+    table.table.table#answers
+      tbody
+        = render @answers
+  = render 'common/errors', resource: @answer
+
+  .create-answers
+    - if user_signed_in?
+      .offset-xs-4.col-xs-8
+      = form_for [@question, @answer], remote: true do |f|
+        .form-group
           = f.label :body, 'Your answer'
           .answer-errors
           = f.text_area :body, class: "form-control"
@@ -33,5 +34,4 @@ p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are 
           = f.submit 'Create answer', class: "btn btn-info float-xs-right"
 
 
-
-= link_to "Back to all Questions", questions_path, class: "btn btn-info"
+  = link_to "Back to all Questions", questions_path, class: "btn btn-info"

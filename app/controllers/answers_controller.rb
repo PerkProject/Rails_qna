@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :set_answer, only: [:destroy, :update, :answer_best]
+  before_action :set_answer, only: [:destroy, :update, :edit, :answer_best]
   after_action :publish_answer, only: [:create]
 
   include Voted
@@ -22,6 +22,9 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer successfully deleted.'
       @answer.destroy
     end
+  end
+
+  def edit
   end
 
   def update
@@ -46,9 +49,13 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
-    ActionCable.server.broadcast(
-        "answers-question-#{@answer.question.id}",
-        render_to_string(template: 'answers/answer.json.jbuilder')
-    )
+    data = {
+        type: :answer,
+        answer_user_id: current_user.id,
+        question_user_id: @question.user_id,
+        answer: @answer,
+        answer_attachments: @answer.attachments
+    }
+    ActionCable.server.broadcast("question_answers_#{params[:question_id]}", data)
   end
 end

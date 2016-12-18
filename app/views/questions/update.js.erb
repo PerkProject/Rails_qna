@@ -1,0 +1,10 @@
+<% if @question.errors.present? %>
+$('div#errors-field').html(" <%= j render 'common/errors', resource: @question %> ")
+<% else %>
+$('div#errors-field').html('')
+$('#question-body p').text(' <%= j @question.body %> ');
+$('#caption').text('<%= j @question.title %>');
+$('#question-' + '<%= @question.id %>' + '-attachments').html(' <%= j render 'attachments', question: @question %>' );
+$('#edit-question-form').hide();
+$('#edit-question-link').show();
+<% end %>

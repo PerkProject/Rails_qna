@@ -1,5 +1,0 @@
-.page-header
-h1 Questions list:
-a href="/questions/#{@question.id}"
-    | #{@question.title}
-div.btn btn-info href="#{new_question_path}" Ask question

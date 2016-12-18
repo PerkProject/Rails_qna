@@ -2,6 +2,3 @@
   .comments-list
     - if resource.comments.any?
       = render resource.comments
-  .comment-form
-    = link_to '+ Add comment', new_polymorphic_path([resource, Comment]), remote: true,
-            class: 'add-comment btn btn-default btn-sm'

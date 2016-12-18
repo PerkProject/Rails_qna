@@ -25,6 +25,6 @@ module Qna
       g.helper false
     end
 
-    #config.action_cable.url = 'ws://localhost:3000'
+    # config.action_cable.url = 'ws://localhost:3000'
   end
 end

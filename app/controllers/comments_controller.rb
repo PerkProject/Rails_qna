@@ -1,24 +1,24 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :get_comment, only: [:destroy]
-  before_action :load_commentable, only: [:new, :create]
-  after_action :publish_comment, only: [:create]
-
-  respond_to :json
-  respond_to :js, only: [:new]
+  before_action :load_commentable, except: [:destroy]
 
   def new
-    respond_with(@comment = @commentable.comments.new)
+    @comment = @commentable.comments.new
   end
 
   def create
     @comment = @commentable.comments.new(comment_params)
     current_user.comments << @comment
-    respond_with(@comment)
+    if @comment.save
+      publish_comment
+    else
+      render 'comments/errors', status: :unprocessable_entity
+    end
   end
 
   def destroy
-    respond_with(@comment.destroy)
+    @comment.destroy
   end
 
   private
@@ -42,10 +42,11 @@ class CommentsController < ApplicationController
   end
 
   def publish_comment
-    return if @comment.errors.any?
-    ActionCable.server.broadcast(
-        "comments-question-#{@comment.root_id}",
-        render_to_string(template: 'comments/_comment.json.jbuilder')
-    )
+    data = {
+        type: :comment,
+        comment: @comment
+    }
+    ActionCable.server.broadcast("question_comments_#{@question_id}", data)
   end
+
 end

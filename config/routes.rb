@@ -2,7 +2,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "questions#index"
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   concern :votable do
     member do
       post 'voteup'
@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   concern :commentable do
     resources :comments, only: [:new, :create, :destroy], shallow: true
   end
-  resources :questions, concerns: [:votable, :commentable] do
-    resources :answers, concerns: [:votable, :commentable], shallow: true do
+  resources :questions, except: :edit, concerns: [:votable, :commentable] do
+    resources :answers, concerns: [:votable, :commentable], only: [:create, :update, :destroy, :edit], shallow: true do
       patch :answer_best, on: :member
     end
   end

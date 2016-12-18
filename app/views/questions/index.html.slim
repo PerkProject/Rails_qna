@@ -1,8 +1,15 @@
-.page-header.h1 Questions list:
-- @questions.each do |question|
-  ul.nav.nav-pills.nav-stacked
-    li= link_to question.title, question_path(question)
-end
 
-div= link_to 'Ask question', new_question_path, class: "btn btn-info"
-
+h1 Questions list
+table.table.table-hover#questions-list
+  thead
+    tr
+      th Answers
+      th Title
+    tbody
+    -unless @questions.empty?
+      = render @questions
+    -else
+      tr
+        td
+p
+  = link_to 'New question', new_question_path

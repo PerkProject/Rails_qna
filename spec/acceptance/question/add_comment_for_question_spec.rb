@@ -18,30 +18,32 @@ feature 'add comment for question', %q{
     end
 
    scenario 'can see "add comment" link', js: true do
-      within '.question' do
-        expect(page).to have_link '+ Add comment'
+      within '#question-body' do
+       # page.driver.debug
+        expect(page).to have_link 'add a comment'
       end
     end
 
     scenario 'add comment with valid data', js: true do
-      within '.question' do
-        click_on '+ Add comment'
+      within '#question-body' do
+        click_on 'add a comment'
+        page.driver.debug
         fill_in 'Your comment', with: 'test comment'
 
-        click_on 'Add comment'
+        click_on 'Save comment'
       end
 
-      within '.comments-list' do
+      within '#question-comments' do
         expect(page).to have_content('Test comment')
       end
     end
 
     scenario 'creates comment with invalid data', js: true do
-      within '.question' do
-        click_on '+ Add comment'
+      within '#question-body' do
+        click_on 'add a comment'
         fill_in 'Your comment', with: ' '
 
-        click_on 'Add comment'
+        click_on 'Save comment'
       end
 
       within '.alert-danger' do
@@ -85,12 +87,12 @@ feature 'add comment for question', %q{
       end
 
       Capybara.using_session('authenticated_author_creator') do
-        within '.question' do
+        within '#question-body' do
 
-          click_on '+ Add comment'
+          click_on 'add a comment'
           fill_in 'Your comment', with: 'test comment'
 
-          click_on 'Add comment'
+          click_on 'Save comment'
         end
       end
     end

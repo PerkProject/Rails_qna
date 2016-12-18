@@ -8,28 +8,28 @@ RSpec.describe CommentsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves comment to db' do
-        expect { process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question },
-                         format: :json }.to change(question.comments, :count).by(1)
+        expect { process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question }, format: :js
+                          }.to change(question.comments, :count).by(1)
       end
 
       it 'responds with json, status code 201 (created)' do
-        process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question },
-                format: :json
-        expect(response.content_type).to eq('application/json')
-        expect(response.status).to eq(201)
+        process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question }, format: :js
+
+        expect(response.content_type).to eq('text/javascript')
+        expect(response.status).to eq(200)
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save comment to db' do
         expect { process :create, method: :post,
-                         params: { comment: attributes_for(:invalid_comment), question_id: question },
-                         format: :json }.to_not change(Comment, :count)
+                         params: { comment: attributes_for(:invalid_comment), question_id: question }, format: :js
+                          }.to_not change(Comment, :count)
       end
 
       it 'responds with status 422' do
-        process :create, method: :post, params: { comment: attributes_for(:invalid_comment), question_id: question },
-                format: :json
+        process :create, method: :post, params: { comment: attributes_for(:invalid_comment), question_id: question }, format: :js
+
         expect(response.status).to eq(422)
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe CommentsController, type: :controller do
       let!(:users_comment) { create(:comment, commentable: question, user: @user) }
 
       it 'deletes comment from db' do
-        expect { process :destroy, method: :delete, params: { id: users_comment.id }, format: :json }
+        expect { process :destroy, method: :delete, params: { id: users_comment.id }, format: :js }
             .to change(question.comments, :count).by(-1)
       end
   end

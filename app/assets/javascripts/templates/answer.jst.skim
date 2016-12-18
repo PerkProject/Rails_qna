@@ -1,18 +1,34 @@
-.answer id="answer-#{@answer.id}"
-  .voting
-    .answer-errors
-    .answer-rating
-      p Rating: #{@answer.rating}
-    - if gon.user_id && (@answer.user.id != gon.user_id)
-      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/votes/voteup" +
-      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/votes/votedown" -
-      a class="vote-answer-link btn btn-default" data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@answer.id}/votes/votedel" cancel
+- question_user_id = @data['question_user_id']
+- answer_user_id = @data['answer_user_id']
+- answer = @data['answer']
+- attachments = @data['answer_attachments']
 
-
-
-
-
-    - if gon.user_id && (gon.question_author_id == gon.user_id)
-      a class="make-best-button btn btn-sm btn-outline-info float-xs-right best-link" data-remote="true" rel="nofollow" data-method="patch" href="/answers/#{@answer.id}/answer_best" make best
-  br
-  .answer-body = @answer.body
+tr id="answer-#{answer.id}"
+  td.best-column
+  td 
+    div id="answer-#{answer.id}-body"
+      = answer.body
+      = gon.current_user
+    .answer-buttons
+      -if gon.current_user_id == question_user_id
+        a> href="/answers/#{answer.id}/make_best" data-method="patch" data-remote="true" id='mark-as-best-link'  rel="nofollow" mark as best
+        | |
+      -if gon.current_user_id == answer_user_id
+        a<> href="/answers/#{answer.id}/edit" data-remote="true" class="edit-answer-link"   edit answer
+        | |
+        a<> href="/answers/#{answer.id}" data-remote="true" data-method="delete" data-confirm="Sure?" class="delete-answer-link"   delete answer
+        |
+      .answer-rating
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=-1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" - 
+        span id="answer-#{answer.id}-rating"  0 
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" + 
+      ul
+        div id="answer-#{answer.id}-attachments"
+          - for a in attachments
+            li
+              a href="#{a.file.url}" #{fileName(a.file.url)}
+              -if gon.current_user_id == answer_user_id
+                a href="/attachments/#{a.id}" data-remote="true" data-method="delete" data-confirm="You are sure?" rel="nofollow"  [x]
+    .div id="Answer-#{answer.id}-comments"
