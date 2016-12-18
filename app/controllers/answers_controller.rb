@@ -24,8 +24,7 @@ class AnswersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @answer.update(answer_params) if current_user.check_owner(@answer)
@@ -50,11 +49,11 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
     data = {
-        type: :answer,
-        answer_user_id: current_user.id,
-        question_user_id: @question.user_id,
-        answer: @answer,
-        answer_attachments: @answer.attachments
+      type: :answer,
+      answer_user_id: current_user.id,
+      question_user_id: @question.user_id,
+      answer: @answer,
+      answer_attachments: @answer.attachments
     }
     ActionCable.server.broadcast("question_answers_#{params[:question_id]}", data)
   end

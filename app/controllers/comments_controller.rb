@@ -45,10 +45,9 @@ class CommentsController < ApplicationController
 
   def publish_comment
     data = {
-        type: :comment,
-        comment: @comment
+      type: :comment,
+      comment: @comment
     }
     ActionCable.server.broadcast("question_comments_#{@question_id}", data)
   end
-
 end
