@@ -15,6 +15,9 @@ class QuestionsController < ApplicationController
     @answer ||= @question.answers.build
     @answer.attachments.build
     gon.current_user_id = current_user.id if user_signed_in?
+    gon.push({
+                 question_id: @question.id
+             })
   end
 
   def new

@@ -39,7 +39,7 @@ feature 'Add comment for answer', %q{
         click_on 'Save comment'
       end
 
-      within ("#answer-#{answer.id}") do
+      within '.answers' do
         expect(page).to_not have_content('poo')
       end
     end
@@ -49,64 +49,57 @@ feature 'Add comment for answer', %q{
     scenario 'tries to create comment', js: true do
       visit question_path(question)
 
-      within ("#answer-#{answer.id}") do
+      within '.answers' do
         expect(page).to_not have_content('Save comment')
       end
     end
   end
 
-  context 'All users get new questions in real-time' do
+  context 'All users get new questions in real-time', js: true do
     before :each do
-      author = create(:user)
-      guest = create(:user)
+      user = create(:user)
 
-      Capybara.using_session('authenticated_user_author_reader') do
-        sign_in(author)
-        visit question_path(question)
-      end
+    Capybara.using_session('user') do
+      sign_in user
+      visit question_path(answer.question)
+    end
 
-      Capybara.using_session('authenticated_guest') do
-        sign_in(guest)
-        visit question_path(question)
-      end
+    Capybara.using_session('guest') do
+      visit question_path(answer.question)
+    end
 
-      Capybara.using_session('non_authenticated_guest') do
-        visit question_path(question)
-      end
+    Capybara.using_session('user') do
+      within ("#answer-#{answer.id}") do
+        click_on('add a comment')
+        fill_in 'comment_content', with: 'Test answer comment'
+        click_on 'Save comment'
 
-      Capybara.using_session('authenticated_user_author_creator') do
-        within ("#answer-#{answer.id}") do
-          click_on 'add a comment'
-
-          fill_in 'comment_content', with: 'test comment'
-
-          click_on 'Save comment'
-        end
+        expect(page).to have_css('span', text: 'Test answer comment')
       end
     end
 
-    scenario 'authenticated guest', js: true do
-      Capybara.using_session('authenticated_guest') do
-        within ("#answer-#{answer.id}") do
-          expect(page).to have_content 'test comment'
-        end
-      end
+    Capybara.using_session('guest') do
+      expect(page).to have_css('span', text: 'Test answer comment')
     end
 
-    scenario 'non-authenticated guest', js: true do
-      Capybara.using_session('non_authenticated_guest') do
-        within ("#answer-#{answer.id}") do
-          expect(page).to have_content 'test comment'
-        end
-      end
+
+  scenario 'unauthenticated user cannot see comment button', js: true do
+    visit question_path(answer.question)
+
+    within('.answer-buttons') { expect(page).to_not have_content('add a comment') }
+  end
+
+  scenario 'authenticated user creates the invalid comment', js: true do
+    sign_in user
+    visit question_path(answer.question)
+    within ("#answer-#{answer.id}") do
+      click_on('add a comment')
+      fill_in 'comment_content', with: 'poo'
+      click_on 'Save comment'
     end
 
-    scenario 'authenticated author as reader', js: true do
-      Capybara.using_session('authenticated_user_author_reader') do
-        within ("#answer-#{answer.id}") do
-          expect(page).to have_content 'test comment'
-        end
-      end
-    end
+    expect(page).to have_content('Body is too short (minimum is 3 characters)')
+  end
+  end
   end
 end

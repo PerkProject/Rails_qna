@@ -1,0 +1,7 @@
+<% if @comment.errors.present? %>
+<% @comment.errors.full_messages.each do |message| %>
+$('.comments-errors').html('<%= j message %>');
+<% end %>
+<% else %>
+$('#comment_<%= @comment.id %>').remove();
+<% end %>

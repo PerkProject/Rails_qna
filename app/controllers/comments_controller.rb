@@ -30,8 +30,10 @@ class CommentsController < ApplicationController
   def load_commentable
     if params[:question_id].present?
       @commentable = Question.find(params[:question_id])
+      @question_id = @commentable.id
     elsif params[:answer_id].present?
       @commentable = Answer.find(params[:answer_id])
+      @question_id = @commentable.question.id
     end
 
     head :unprocessable_entity unless @commentable

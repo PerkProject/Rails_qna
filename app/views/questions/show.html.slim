@@ -9,11 +9,9 @@ h1#caption= @question.title
   = render 'edit_question_form', question: @question
   |comments:
   .div id="Question-#{@question.id}-comments" class = 'question-comments'
-    - if user_signed_in?
-    = render 'comments/comments', resource: @question if user_signed_in?
+    = render @question.comments
   .div id="question-#{@question.id}-attachments" class = 'question-attachments'
     = render 'attachments', question: @question
-
 
   .answers
     table.table.table#answers
