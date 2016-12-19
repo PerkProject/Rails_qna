@@ -13,7 +13,7 @@ feature 'Create question', %q{
     sign_in(user)
 
     visit questions_path
-    click_on 'Ask question'
+    click_on 'New question', match: :first
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'test text'
     click_on 'Create'
@@ -23,7 +23,7 @@ feature 'Create question', %q{
 
   scenario 'Non-authenticated user ties to create question' do
     visit questions_path
-    click_on 'Ask question'
+    click_on 'New question', match: :first
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
@@ -31,7 +31,7 @@ feature 'Create question', %q{
   scenario 'Authenticated user submit invalid question' do
     sign_in(user)
     visit questions_path
-    click_on 'Ask question'
+    click_on 'New question', match: :first
     click_on 'Create'
 
     expect(current_path).to eq questions_path

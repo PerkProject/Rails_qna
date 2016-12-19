@@ -1,20 +1,40 @@
 doctype html
-html
+html lang="en"
   head
-    title Qna
-    meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title= content_for?(:title) ? yield(:title) : "QNA"
+    = include_gon init: true
     = csrf_meta_tags
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
+    = action_cable_meta_tag
+    = Gon::Base.render_data
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
   body
-    p.notice= notice
-    p.alert= alert
-    p
-      - if current_user
-        = link_to 'Log out', destroy_user_session_path, method: :delete
-      - else
-        = link_to 'Sign in', new_user_session_path
-        = link_to 'Sign up', new_user_registration_path
-    = yield
+    .navbar.navbar-default.navbar-static-top
+      .container
+        button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand href="#"QNA
+        .navbar-collapse.collapse.navbar-responsive-collapse
+          ul.nav.navbar-nav
+            li= link_to "Questions list", questions_path
+            -if user_signed_in?
+              li= link_to 'New question', new_question_path
+              li= link_to "Exit", destroy_user_session_path, method: :delete
+            -else
+              li= link_to "Registration", new_user_registration_path
+              li= link_to "Entry", new_user_session_path
 
+    .container
+      .row
+        .col-lg-12
+          = bootstrap_flash
+          #errors-field
+          = yield
+
+      footer
+        p &copy; QNA

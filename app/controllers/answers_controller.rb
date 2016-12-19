@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :set_answer, only: [:destroy, :update, :answer_best]
+  before_action :set_answer, only: [:destroy, :update, :edit, :answer_best]
+  after_action :publish_answer, only: [:create]
 
   include Voted
 
@@ -23,6 +24,8 @@ class AnswersController < ApplicationController
     end
   end
 
+  def edit; end
+
   def update
     @answer.update(answer_params) if current_user.check_owner(@answer)
     @question = @answer.question
@@ -41,5 +44,17 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.required(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+    data = {
+      type: :answer,
+      answer_user_id: current_user.id,
+      question_user_id: @question.user_id,
+      answer: @answer,
+      answer_attachments: @answer.attachments
+    }
+    ActionCable.server.broadcast("question_answers_#{params[:question_id]}", data)
   end
 end

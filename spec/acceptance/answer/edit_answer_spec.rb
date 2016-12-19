@@ -21,28 +21,26 @@ feature 'Edit answer', %q{
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Edit answer'
-    #page.driver.debug
+    click_on 'edit answer'
+
+    fill_in 'Edit your answer:', with: 'EditAnswerText', match: :first
+    click_on 'Save'
+    click_on 'Cancel'
+
     within '.answers' do
-      fill_in 'Answer', with: 'EditAnswerText'
-      click_on 'Save'
-
-      expect(page).to have_content 'EditAnswerText'
-      expect(page).to have_no_content answer.body
-
-    end
-
-
+     expect(page).to have_content 'EditAnswerText'
+     expect(page).to have_no_content answer.body
+  end
   end
 
   scenario 'Authenticated user make invalid answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Edit answer'
+    click_on 'edit answer'
 
-    within '.answers' do
-     fill_in 'Answer' , with: ''
+    within ("#answer-#{answer.id}") do
+     fill_in 'Edit your answer:' , with: ''
      click_on 'Save'
     end
 
@@ -54,7 +52,7 @@ feature 'Edit answer', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_link 'edit answer'
   end
 
 end

@@ -15,7 +15,7 @@ feature 'Select Best Answer', %q{
     scenario 'can see accept answer button for answer' do
       sign_in(user)
       visit question_path(question)
-      expect(page).to have_css('.best-link', count: 5)
+      expect(page).to have_css('#make-as-best-link', count: 5)
     end
 
     scenario "when author of question click 'make best',this answer mark as best", js: true do
@@ -23,7 +23,7 @@ feature 'Select Best Answer', %q{
       visit question_path(question)
       click_link('make best', match: :first)
 
-      expect(page).to have_css('.best-link', count: 4)
+      expect(page).to have_css('#make-as-best-link', count: 4)
       expect(page).to have_css('.better-link', count: 1)
     end
 
@@ -33,7 +33,7 @@ feature 'Select Best Answer', %q{
 
       scenario 'can not see best answer link' do
         visit question_path(question)
-        expect(page).to_not have_css('.best-link')
+        expect(page).to_not have_css('#make-as-best-link')
       end
 
     end

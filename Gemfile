@@ -31,10 +31,16 @@ gem 'jquery-turbolinks'
 # gem 'capistrano-rails', group: :development
 gem 'slim-rails'
 gem 'devise'
-gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'devise-bootstrap-views'
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'skim'
+gem 'gon'
+gem 'sprockets', '3.6.3'
+gem 'nested_form'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -50,6 +56,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'fuubar'
+  gem 'json_spec'
 end
 
 group :development do
@@ -60,6 +67,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 
   gem 'better_errors'
   gem 'binding_of_caller'

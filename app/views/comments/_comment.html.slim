@@ -1,0 +1,8 @@
+.comment
+  .div id="comment_#{comment.id}"
+  span.comment-body= comment.content
+  br
+  - if user_signed_in?
+    = link_to comment, method: :delete, remote: true,
+            data: {confirm: 'Are you sure?'}, class: 'comment-delete' do
+      = 'remove'

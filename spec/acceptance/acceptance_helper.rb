@@ -15,6 +15,7 @@ RSpec.configure do |config|
     Capybara::Poltergeist::Driver.new(app, :inspector => true)
   end
   Capybara.javascript_driver = :poltergeist_debug
+  Capybara.server = :puma
 
   config.include AcceptanceHelper, type: :feature
   config.use_transactional_fixtures = false

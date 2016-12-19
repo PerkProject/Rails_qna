@@ -13,8 +13,8 @@ I want to be able to sign out
     sign_in(user)
     visit questions_path
 
-    expect(page).to have_selector(:link_or_button, 'Log out')
-    click_on 'Log out'
+    expect(page).to have_selector(:link_or_button, 'Exit')
+    click_on 'Exit'
     expect(page).to have_content('Signed out successfully.')
 
   end

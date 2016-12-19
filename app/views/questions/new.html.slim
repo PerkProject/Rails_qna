@@ -1,4 +1,3 @@
-
 =render 'errors'
 .offset-xs-4.col-xs-8
 =form_for(@question) do |f|
@@ -7,14 +6,14 @@
   p
   = f.label :title
   = f.text_field :title
-  p
+  .form-group
   = f.label :body
-  = f.text_area :body
+  = f.text_area :body, class: "form-control"
+  .form-group
   p Attachments:
   p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
   p
-  = f.submit 'Create'
+  = f.submit 'Create', class: "btn btn-info float-xs-right"
 
-p
+.form-group
 = link_to 'Back', questions_path
-

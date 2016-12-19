@@ -15,7 +15,7 @@ feature 'author can delete your question', %q{
   scenario 'Author can delete question' do
     visit question_path(@question)
 
-    click_on 'Delete question'
+    click_on 'delete question'
 
     expect(page).to_not have_content @question.title
     expect(page).to have_content 'Your question successfully deleted.'
@@ -26,7 +26,7 @@ feature 'author can delete your question', %q{
     sign_in(create(:user))
     visit question_path(@question)
 
-    expect(page).to_not have_link 'Delete question'
+    expect(page).to_not have_link 'delete question'
   end
 
   scenario 'Non-authenticated user can not delete question' do
@@ -34,7 +34,7 @@ feature 'author can delete your question', %q{
 
     visit question_path(@question)
 
-    expect(page).to_not have_link 'Delete question'
+    expect(page).to_not have_link 'delete question'
   end
 
 end

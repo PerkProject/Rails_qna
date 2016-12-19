@@ -1,0 +1,16 @@
+form#edit-question-form {
+  display: none;
+}
+
+.question-voting {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  float: right;
+}
+
+.question-comments {
+  margin-left: 100px;
+  font-size: 12px;
+  color: #837f7f;
+}

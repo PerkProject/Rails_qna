@@ -16,8 +16,8 @@ I want to be able to delete my answer
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Delete answer'
-    page.reset!
+    click_on 'delete answer'
+    #page.reset!
     expect(page).to_not have_content(answer.body)
   end
 
@@ -28,8 +28,8 @@ I want to be able to delete my answer
 
     visit question_path(question)
 
-    within '.answer#' + "answer-#{answer.id}" do
-      expect(page).to_not have_link 'Delete answer'
+    within ("#answer-#{answer.id}") do
+      expect(page).to_not have_link 'delete answer'
     end
   end
 
@@ -39,8 +39,8 @@ I want to be able to delete my answer
 
     visit question_path(question)
 
-    within '.answer#' + "answer-#{answer.id}" do
-      expect(page).to_not have_link 'Delete answer'
+    within ("#answer-#{answer.id}") do
+      expect(page).to_not have_link 'delete answer'
     end
   end
 end

@@ -1,0 +1,9 @@
+=form_for answer, remote: true, html: { id: "edit-answer-form-#{answer.id}"} do |f|
+  .form-group
+    =f.label :body, 'Edit your answer:'
+    =f.text_area :body, class: 'form-control'
+    =f.fields_for :attachments do |a|
+      =a.label :file
+      =a.file_field :file, class: 'form-control'
+    =f.submit 'Save', class: "btn btn-default"
+    =link_to "Cancel", "#", class: "btn btn-default cancel"

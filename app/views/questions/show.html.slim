@@ -1,32 +1,35 @@
-.col-xs-8
-div= @question.title
-div= @question.body
-=render partial: 'votes/voting', locals: { votable: @question }
-p Attachments:
-ul.list-group.attachments
-  - @question.attachments.each do |a|
-    li= link_to a.file.identifier, a.file.url
-    p= link_to 'delete file', a , method: :delete, class: "btn btn-sm btn-info float-xs"
-p= link_to 'Delete question', @question, method: :delete, data: { confirm: "Are you sure?" } if user_signed_in? && current_user.check_owner(@question)
+h1#caption= @question.title
+#question data-id="#{@question.id}"
+  #question-body
+    p= @question.body
+    #question-buttons
+    = render 'buttons', question: @question
+    .div id= "question-#{@question.id}-rating"
+      = render partial: 'votes/voting', locals: { votable: @question }
+  = render 'edit_question_form', question: @question
+  |comments:
+  .div id="Question-#{@question.id}-comments" class = 'question-comments'
+    = render @question.comments
+  .div id="question-#{@question.id}-attachments" class = 'question-attachments'
+    = render 'attachments', question: @question
 
-.answers
-  - if @question.answers.count > 0
-    h3.text-muted= "Answers:"
-    ul.list-group= render @question.answers
+  .answers
+    table.table.table#answers
+      tbody
+        = render @answers
+  = render 'common/errors', resource: @answer
 
-
-.create-answers
-  - if user_signed_in?
-    .offset-xs-4.col-xs-8
-    = form_for [@question, @answer], remote: true do |f|
-      .form-group
+  .create-answers
+    - if user_signed_in?
+      .offset-xs-4.col-xs-8
+      = form_for [@question, @answer], remote: true do |f|
+        .form-group
           = f.label :body, 'Your answer'
           .answer-errors
-          = f.text_area :body
+          = f.text_area :body, class: "form-control"
           p Attachments:
           p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
           = f.submit 'Create answer', class: "btn btn-info float-xs-right"
 
 
-
-= link_to "Back to all Questions", questions_path
+  = link_to "Back to all Questions", questions_path, class: "btn btn-info"
