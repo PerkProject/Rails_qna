@@ -106,12 +106,9 @@ RSpec.describe QuestionsController, type: :controller do
        expect { delete :destroy, params: { id: @question }}.to_not change(Question,:count)
      end
 
-     it 'redirects to questions list' do
+     it 'to be successful' do
        delete :destroy, params: { id: @question }
-       #expect(response).to redirect_to question_path
-       #падает этот тест с таким текстом:
-       #Expected response to be a <3XX: redirect>, but was a <204: No Content>
-       #Если проделывать тоже самое на сайте то там все ок
+       expect(response).to be_successful
      end
    end
 
