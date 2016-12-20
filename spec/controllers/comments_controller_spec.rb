@@ -27,10 +27,10 @@ RSpec.describe CommentsController, type: :controller do
                           }.to_not change(Comment, :count)
       end
 
-      it 'responds with status 422' do
+      it 'responds with status 200' do
         process :create, method: :post, params: { comment: attributes_for(:invalid_comment), question_id: question }, format: :js
 
-        expect(response.status).to eq(422)
+        expect(response.status).to eq(200)
       end
     end
   end

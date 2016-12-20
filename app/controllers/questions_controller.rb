@@ -2,53 +2,37 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy]
+  before_action :set_show_settings, only: [:show]
   after_action :publish_question, only: [:create]
 
   include Voted
 
+  respond_to :html, :js, :json
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answers = @question.answers
-    @answer ||= @question.answers.build
-    @answer.attachments.build
-    gon.current_user_id = current_user.id if user_signed_in?
-    gon.push(question_id: @question.id)
+    respond_with(@question)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    @question = current_user.questions.build
+    respond_with(@question)
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-    if @question.save
-      flash[:notice] = 'You question successfully created.'
-      redirect_to @question
-    else
-      flash[:notice] = 'Question is not created!'
-      render :new
-    end
+    @question = current_user.questions.create(question_params)
+    respond_with(@question)
   end
 
   def destroy
-    if current_user.check_owner(@question)
-      @question.destroy
-      flash[:notice] = 'Your question successfully deleted.'
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy) if current_user.check_owner(@question)
   end
 
   def update
-    if current_user.check_owner(@question)
-      @question.update(question_params)
-    else
-      @question.errors.add(:base, message: 'Cannot edit question if not author')
-    end
+    respond_with(@question) if current_user.check_owner(@question)
   end
 
   private
@@ -68,5 +52,13 @@ class QuestionsController < ApplicationController
                                    partial: 'questions/question',
                                    locals: { question: @question }
                                  ))
+  end
+
+  def set_show_settings
+    @answers = @question.answers
+    @answer ||= @question.answers.build
+    @answer.attachments.build
+    gon.current_user_id = current_user.id if user_signed_in?
+    gon.push(question_id: @question.id)
   end
 end

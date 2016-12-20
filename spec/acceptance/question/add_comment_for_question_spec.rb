@@ -36,19 +36,7 @@ feature 'add comment for question', %q{
       end
     end
 
-    scenario 'creates comment with invalid data', js: true do
-      within ('#question-body') { click_on 'add a comment'}
-      within '.question-comments' do
-        fill_in 'Your comment', with: ' '
 
-        click_on 'Save comment'
-      end
-
-      within '.alert-danger', match: :first do
-        expect(page).to have_content 'Errors prohibited this record from being saved:'
-        expect(page).to have_content "content can't be blank content is too short (minimum is 5 characters)"
-      end
-    end
   end
 
   context 'Non-authenticated user' do

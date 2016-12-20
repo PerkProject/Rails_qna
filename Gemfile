@@ -58,6 +58,7 @@ group :development, :test do
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'fuubar'
   gem 'json_spec'
+  #gem 'plymouth'
 end
 
 group :development do

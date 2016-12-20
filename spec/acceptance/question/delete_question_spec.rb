@@ -18,7 +18,7 @@ feature 'author can delete your question', %q{
     click_on 'delete question'
 
     expect(page).to_not have_content @question.title
-    expect(page).to have_content 'Your question successfully deleted.'
+    expect(page).to have_content 'Question was successfully destroyed.'
   end
 
   scenario 'Authenticated user can not delete question by other user' do

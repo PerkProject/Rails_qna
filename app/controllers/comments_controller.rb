@@ -2,23 +2,22 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :get_comment, only: [:destroy]
   before_action :load_commentable, except: [:destroy]
+  after_action :publish_comment, only: [:create]
+
+  respond_to :js
 
   def new
-    @comment = @commentable.comments.new
+    @comment = @commentable.comments.build
+    respond_with @comment
   end
 
   def create
-    @comment = @commentable.comments.new(comment_params)
-    current_user.comments << @comment
-    if @comment.save
-      publish_comment
-    else
-      render 'comments/errors', status: :unprocessable_entity
-    end
+    @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
+    respond_with @comment
   end
 
   def destroy
-    @comment.destroy
+    respond_with @comment.destroy
   end
 
   private
