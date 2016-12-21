@@ -8,6 +8,7 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+OmniAuth.config.test_mode = true
 
 RSpec.configure do |config|
 
@@ -19,6 +20,7 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
+  config.include OmniauthMacros
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
