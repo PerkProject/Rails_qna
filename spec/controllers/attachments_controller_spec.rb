@@ -11,15 +11,15 @@ RSpec.describe AttachmentsController, type: :controller do
 
     context 'author delete you attachment' do
 
-      it 'delete attachment in database' do
+      it 'delete attachment in database', js: true do
         expect do
-          delete :destroy, params: { id: file }
+          delete :destroy, params: { id: file }, format: :js
         end.to change(Attachment, :count).by(0)
       end
 
-      it 'redirects to back page' do
-        delete :destroy, params: { id: file }
-        expect(response).to render_template request.referer
+      it 'to be successful', js: true do
+        delete :destroy, params: { id: file }, format: :js
+        expect(response).to be_successful
       end
 
     end
@@ -30,13 +30,13 @@ RSpec.describe AttachmentsController, type: :controller do
         sign_in create(:user)
       end
 
-      it 'does not delete Attachment' do
-        expect { delete :destroy, params: { id: file } }.to_not change(Attachment, :count)
+      it 'does not delete Attachment', js: true do
+        expect { delete :destroy, params: { id: file }, format: :js }.to_not change(Attachment, :count)
       end
 
-      it 'redirect to back path' do
-        delete :destroy, params: { id: file }
-        expect(response).to render_template request.referer
+      it 'to be successful', js: true do
+        delete :destroy, params: { id: file }, format: :js
+        expect(response).to be_successful
       end
     end
   end

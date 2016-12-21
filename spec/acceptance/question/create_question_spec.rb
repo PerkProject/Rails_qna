@@ -18,7 +18,7 @@ feature 'Create question', %q{
     fill_in 'Body', with: 'test text'
     click_on 'Create'
 
-    expect(page).to have_content 'You question successfully created.'
+    expect(page).to have_content 'Question was successfully created.'
   end
 
   scenario 'Non-authenticated user ties to create question' do
@@ -38,7 +38,6 @@ feature 'Create question', %q{
     expect(page).to have_content "Title can't be blank"
     expect(page).to have_content "Body can't be blank"
     expect(page).to have_content "Title is too short (minimum is 5 characters)"
-    expect(page).to have_content 'Question is not created!'
   end
 
 end

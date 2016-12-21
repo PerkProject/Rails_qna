@@ -38,10 +38,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template(:new)
     end
 
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'assigns new question model @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
@@ -110,9 +106,9 @@ RSpec.describe QuestionsController, type: :controller do
        expect { delete :destroy, params: { id: @question }}.to_not change(Question,:count)
      end
 
-     it 'redirects to questions list' do
+     it 'to be successful' do
        delete :destroy, params: { id: @question }
-       expect(response).to redirect_to questions_path
+       expect(response).to be_successful
      end
    end
 

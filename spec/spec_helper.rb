@@ -1,3 +1,8 @@
+#require 'continuation'
+#require 'pry'
+#require 'pry-stack_explorer'
+#require 'plymouth'
+
 RSpec.configure do |config|
 
   config.expect_with :rspec do |expectations|

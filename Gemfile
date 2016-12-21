@@ -41,6 +41,7 @@ gem 'skim'
 gem 'gon'
 gem 'sprockets', '3.6.3'
 gem 'nested_form'
+gem 'responders'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -57,6 +58,7 @@ group :development, :test do
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'fuubar'
   gem 'json_spec'
+  #gem 'plymouth'
 end
 
 group :development do
