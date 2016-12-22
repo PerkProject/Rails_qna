@@ -18,18 +18,15 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     return unless auth.is_a?(Hash) && OmniAuth::AuthHash.new(auth).valid?
 
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
+    user = User.find_by(email: email)
     if user
       user.create_authorization(auth)
     else
-      user = User.new(
-          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20]
-      )
+      new_user
       user.save!
       user.create_authorization(auth)
     end
@@ -38,6 +35,15 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  private
+
+  def new_user
+    User.new(
+      email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+      password: Devise.friendly_token[0, 20]
+    )
   end
 end
