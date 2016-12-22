@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class User < ApplicationRecord
-  TEMP_EMAIL_PREFIX = 'name@mail'
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -26,8 +25,9 @@ class User < ApplicationRecord
     if user
       user.create_authorization(auth)
     else
-      new_user
-      user.save!
+      password = Devise.friendly_token[0, 20]
+      user = User.create!(email: email, password: password, password_confirmation: password)
+
       user.create_authorization(auth)
     end
 
@@ -36,14 +36,5 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     authorizations.create(provider: auth.provider, uid: auth.uid)
-  end
-
-  private
-
-  def new_user
-    User.new(
-      email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-      password: Devise.friendly_token[0, 20]
-    )
   end
 end
