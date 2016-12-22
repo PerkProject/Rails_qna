@@ -5,7 +5,7 @@ module OmniauthMacros
             'provider' => provider,
             'uid' => '12345',
             'info' => {
-                'email' => 'user@example.com'
+                'email' => "name@mail-12345-#{provider.downcase}.com"
             },
             'user_info' => {
                 'name' => 'mockuser',

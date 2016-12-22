@@ -12,7 +12,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
         end
 
         it 'assigns user' do
-          expect(assigns(:user).email).to eq('user@example.com')
+          expect(assigns(:user).email).to eq("name@mail-12345-#{provider.downcase}.com")
         end
 
         it 'sets flash message' do

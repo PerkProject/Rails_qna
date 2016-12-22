@@ -24,7 +24,7 @@ RSpec.describe User do
 
   describe '.find_for_oauth' do
    let!(:user) { FactoryGirl.create(:user) }
-   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
+   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: "name@mail-123456-facebook.com" }) }
 
    context 'user already has authorization' do
      it 'returns the user' do
@@ -61,7 +61,7 @@ RSpec.describe User do
     end
 
     context 'user does not exists' do
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'new@user.com' })}
+      let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: "name@mail-123456-facebook.com" })}
 
       it 'creates new user' do
         expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
