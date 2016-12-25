@@ -2,6 +2,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
+  resources :users, only: [] do
+    collection do
+      post 'require_email_for_auth'
+    end
+  end
 
   concern :votable do
     member do

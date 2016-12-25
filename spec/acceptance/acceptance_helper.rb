@@ -1,6 +1,7 @@
 require 'rails_helper'
 require 'capybara/poltergeist'
 require 'phantomjs'
+require 'capybara/email/rspec'
 #Capybara.default_wait_time = 5
 #Capybara.register_driver :poltergeist do |app|
 #  Capybara::Poltergeist::Driver.new(app, inspector: true)
@@ -34,6 +35,9 @@ RSpec.configure do |config|
   end
   config.after(:each) do
     DatabaseCleaner.clean
-end
+  end
 
+  ActionDispatch::IntegrationTest
+  Capybara.server_port = 3001
+  Capybara.app_host = 'http://localhost:3001'
 end

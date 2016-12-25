@@ -22,9 +22,9 @@ RSpec.describe User do
     end
   end
 
-  describe '.find_for_oauth' do
-   let!(:user) { FactoryGirl.create(:user) }
-   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: "name@mail-123456-facebook.com" }) }
+  describe '.find_for_oauth and .build_by_omniauth_params' do
+    let!(:user){ create(:user) }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: "name@mail-123456-facebook.com" }) }
 
    context 'user already has authorization' do
      it 'returns the user' do
@@ -43,11 +43,12 @@ RSpec.describe User do
         end
 
         it 'creates authorization for user' do
-          expect { User.find_for_oauth(auth) }.to change(user.authorizations, :count).by(1)
+          expect { User.build_by_omniauth_params(user.email, auth) }.to change(user.authorizations, :count).by(1)
         end
 
         it 'creates authorization with right provider and uid' do
           user = User.find_for_oauth(auth)
+          user = User.build_by_omniauth_params(user.email, auth)
           authorization = user.authorizations.first
 
           expect(authorization.provider).to eq auth.provider
@@ -63,17 +64,19 @@ RSpec.describe User do
     context 'user does not exists' do
       let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: "name@mail-123456-facebook.com" })}
 
-      it 'creates new user' do
-        expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
+      it 'not creates new user' do
+        expect { User.find_for_oauth(auth) }.to change(User, :count).by(0)
+        expect { User.build_by_omniauth_params(user.email, auth) }.to change(User, :count).by(0)
       end
 
       it 'returns new user' do
         expect(User.find_for_oauth(auth)).to be_a(User)
+        expect(User.build_by_omniauth_params(user.email, auth)).to be_a(User)
       end
 
       it 'fills user email' do
         user = User.find_for_oauth(auth)
-        expect(user.email).to eq auth.info.email
+        expect(user.email).to eq ''
       end
       it 'creates authorization for user' do
         user = User.find_for_oauth(auth)

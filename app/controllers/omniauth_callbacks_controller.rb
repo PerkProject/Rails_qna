@@ -17,14 +17,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def process_authorization(provider)
     @user = User.find_for_oauth(@auth)
-    if @user && @user.persisted?
+    if @user.email.blank?
+      session['devise.omiauth.auth'] = {
+        provider: @auth.provider,
+        uid: @auth.uid.to_i,
+        user_password: @user.password
+      }
+      render template: 'devise/registrations/email_required'
+    elsif @user.persisted?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
-
-    else
-      set_flash_message(:alert, :failure, kind: provider, reason: 'wrong auth') if is_navigational_format?
-      redirect_to new_user_registration_path and return
     end
   end
-
 end

@@ -2,6 +2,7 @@
 #require 'pry'
 #require 'pry-stack_explorer'
 #require 'plymouth'
+require 'capybara/email/rspec'
 
 RSpec.configure do |config|
 
