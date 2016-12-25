@@ -7,6 +7,7 @@ I want to be able to sign up
 } do
 
   scenario 'Unregistered user can sign up and success' do
+    clear_emails
     visit new_user_registration_path
 
     click_on('Sign up' , :match => :first)
@@ -17,7 +18,10 @@ I want to be able to sign up
 
     click_button('Sign up' , :match => :first)
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    open_email('usertest@email.com')
+    current_email.click_link 'Confirm my account'
+
+    expect(page).to have_content "Your email address has been successfully confirmed."
 
     end
 

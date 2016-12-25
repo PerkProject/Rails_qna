@@ -42,6 +42,9 @@ gem 'gon'
 gem 'sprockets', '3.6.3'
 gem 'nested_form'
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -59,6 +62,8 @@ group :development, :test do
   gem 'fuubar'
   gem 'json_spec'
   #gem 'plymouth'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do

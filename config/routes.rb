@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
+  resources :users, only: [] do
+    collection do
+      post 'require_email_for_auth'
+    end
+  end
 
   concern :votable do
     member do
@@ -21,4 +26,7 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:destroy]
   mount ActionCable.server => '/cable'
+
+  get 'terms' => 'pages#terms'
+  get 'policy' => 'pages#policy'
 end

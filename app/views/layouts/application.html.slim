@@ -28,6 +28,9 @@ html lang="en"
             -else
               li= link_to "Registration", new_user_registration_path
               li= link_to "Entry", new_user_session_path
+              li= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path
+              li= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path
+
 
     .container
       .row
