@@ -11,14 +11,34 @@ RSpec.describe Ability, type: :model do
 
   context 'when user authorized' do
     let(:user) { create :user }
+    let(:other_user) { create :user }
 
+    let(:question) { create :question, user: user }
+    let(:other_question) { create :question, user: other_user }
 
     it { should be_able_to :read, :all }
+
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
     it { should be_able_to :create, Attachment }
 
+    it { should be_able_to :accept, create(:answer, question: question) }
+    it { should_not be_able_to :accept, create(:answer, question: other_question) }
+
+    it { should be_able_to :destroy, create(:question, user: user) }
+    it { should be_able_to :destroy, create(:answer, user: user) }
+    it { should be_able_to :destroy, create(:attachment, attachable: question) }
+    it { should be_able_to :destroy, create(:comment, user: user) }
+    it { should_not be_able_to :destroy, create(:question, user: other_user) }
+    it { should_not be_able_to :destroy, create(:answer, user: other_user) }
+    it { should_not be_able_to :destroy, create(:attachment, attachable: other_question) }
+    it { should_not be_able_to :destroy, create(:comment, user: other_user) }
+
+    it { should be_able_to :update, create(:question, user: user) }
+    it { should be_able_to :update, create(:answer, user: user) }
+    it { should_not be_able_to :update, create(:question, user: other_user) }
+    it { should_not be_able_to :update, create(:answer, user: other_user) }
 
   end
 end
