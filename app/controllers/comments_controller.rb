@@ -6,6 +6,8 @@ class CommentsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def new
     @comment = @commentable.comments.build
     respond_with @comment

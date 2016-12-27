@@ -10,6 +10,8 @@ class AnswersController < ApplicationController
 
   respond_to :js, :json
 
+  authorize_resource
+
   def create
     @answer = current_user.answers.create(answer_params.merge(question_id: @question.id))
     respond_with(@answer)
