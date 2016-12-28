@@ -2,6 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    alias_action :voteup, :votedown, :votedel, :to => :vote
+
     @user = user
     if @user
       user_abilities
@@ -23,6 +25,9 @@ class Ability
     can [:update, :destroy], [Question, Answer, Comment], user_id: @user.id
     can :destroy, Attachment, attachable: { user_id: @user.id }
     can :accept, Answer, question: { user_id: @user.id }
+    can :mark_as_best, Answer do |answer|
+      @user.check_owner(answer.question)
+    end
   end
 
   def guest_abilities
@@ -31,11 +36,8 @@ class Ability
   end
 
   def voting_abilities
-    can [:voteup, :votedown], [Answer, Question] do |votable|
-      votable.votes.find_by(user_id: @user.id).nil? && !@user.check_owner(votable)
-    end
-    can :votedel, [Answer, Question] do |votable|
-      votable.votes.find_by(user_id: @user.id) && !@user.check_owner(votable)
+    can :vote, [Question, Answer] do |votable|
+      !@user.check_owner(votable)
     end
   end
 end
