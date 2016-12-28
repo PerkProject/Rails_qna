@@ -40,5 +40,20 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :update, create(:question, user: other_user) }
     it { should_not be_able_to :update, create(:answer, user: other_user) }
 
+    it { should be_able_to :voteup, create(:question, user: other_user) }
+    it { should be_able_to :voteup, create(:answer, user: other_user) }
+    it { should_not be_able_to :voteup, create(:question, user: user) }
+    it { should_not be_able_to :voteup, create(:answer, user: user) }
+
+    it { should be_able_to :votedown, create(:question, user: other_user) }
+    it { should be_able_to :votedown, create(:answer, user: other_user) }
+    it { should_not be_able_to :votedown, create(:question, user: user) }
+    it { should_not be_able_to :votedown, create(:answer, user: user) }
+
+    it { should be_able_to :votedel, create(:question, user: other_user, votes: create_list(:vote, 1, user: user)) }
+    it { should be_able_to :votedel, create(:answer, user: other_user, votes: create_list(:vote, 1, user: user)) }
+    it { should_not be_able_to :votedel, create(:question, user: user) }
+    it { should_not be_able_to :votedel, create(:answer, user: user) }
+
   end
 end
