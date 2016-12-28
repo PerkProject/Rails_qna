@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :voteup, :votedown, :votedel, :to => :vote
+    alias_action :voteup, :votedown, :votedel, to: :vote
 
     @user = user
     if @user

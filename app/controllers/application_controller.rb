@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
       format.html { redirect_to root_url, alert: exception.message }
       format.json { head :forbidden }
       format.js { render json: { error: exception.message }, status: :forbidden }
-      end
+    end
   end
 end
