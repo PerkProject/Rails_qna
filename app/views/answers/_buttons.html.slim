@@ -1,7 +1,7 @@
--if current_user.try(:check_owner, answer.question) && !answer.best
+-if can?(:mark_as_best, answer) && !answer.best
   =<>link_to 'make best', answer_best_answer_path(answer), method: :patch, id: 'make-as-best-link', remote: true
   | |
--if current_user.try(:check_owner, answer)
+-if can?(:edit, answer)
   =<>link_to 'edit answer', edit_answer_path(answer), class: 'edit-answer-link', data: { answer_id: answer.id, remote: true }
   | |
   =<>link_to 'delete answer', answer, method: :delete, remote: true, class: "delete-answer-link", data: { answer_id: answer.id, confirm: 'You are sure?' }

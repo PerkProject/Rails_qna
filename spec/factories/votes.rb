@@ -18,4 +18,8 @@ FactoryGirl.define do
       value -1
     end
   end
+
+  factory :vote do
+    value(-1)
+  end
 end

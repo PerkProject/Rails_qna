@@ -3,4 +3,4 @@
   span.comment-body #{@comment.content}
   br
   - if gon.current_user_id == @user_id
-    a data-confirm="Are you sure?" class="comment-delete" data-remote="true" rel="nofollow" data-method="delete" href="/comments/161">remove
+    a href="/comments/#{comment.id}" class="comment-delete" data-remote="true" data-method="delete" data-confirm="Are you sure?" rel="nofollow" remove

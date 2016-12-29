@@ -10,13 +10,15 @@ class AnswersController < ApplicationController
 
   respond_to :js, :json
 
+  authorize_resource
+
   def create
     @answer = current_user.answers.create(answer_params.merge(question_id: @question.id))
     respond_with(@answer)
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.check_owner(@answer)
+    respond_with(@answer.destroy)
   end
 
   def edit
@@ -24,12 +26,12 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params) if current_user.check_owner(@answer)
+    @answer.update(answer_params)
     respond_with(@answer)
   end
 
   def answer_best
-    respond_with(@answer.mark_as_best) if current_user.check_owner(@answer)
+    respond_with(@answer.mark_as_best)
   end
 
   private

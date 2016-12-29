@@ -1,4 +1,4 @@
 li
   = link_to attachment.file.identifier, attachment.file.url
-  -if current_user.try(:check_owner, attachment.attachable)
+  -if can?(:destroy, attachment)
     = link_to ' delete file', attachment_path(attachment), method: :delete, remote: true, data: { confirm: "You are sure?"}
