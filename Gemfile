@@ -89,6 +89,7 @@ group :development do
   gem 'guard-livereload', require: false
   gem 'rack-livereload'
   gem 'terminal-notifier-guard', require: false
+  gem 'guard-rubocop', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

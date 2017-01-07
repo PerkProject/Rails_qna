@@ -60,3 +60,8 @@ group 'server' do
     watch(%r{assets/.+\.(js|css|coffee|sass|skim)$})
   end
 end
+
+guard :rubocop do
+  watch(%r{.+\.rb$})
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end

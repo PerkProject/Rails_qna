@@ -141,6 +141,9 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    guard-rubocop (1.2.0)
+      guard (~> 2.0)
+      rubocop (~> 0.20)
     guard-spring (1.1.1)
       guard (~> 2.0)
       guard-compat (~> 1.1)
@@ -404,6 +407,7 @@ DEPENDENCIES
   guard-livereload
   guard-rails
   guard-rspec
+  guard-rubocop
   guard-spring
   jbuilder (~> 2.5)
   jquery-rails

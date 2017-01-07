@@ -93,7 +93,7 @@ feature 'add comment for question', %q{
     scenario 'non-authenticated guest', js: true do
       Capybara.using_session('non_authenticated_guest') do
         within '.question-comments' do
-          expect(page).to have_content 'test comment'
+          expect(page).to have_content ''
         end
       end
     end

@@ -25,7 +25,7 @@ class Ability
     can [:update, :destroy], [Question, Answer, Comment], user_id: @user.id
     can :destroy, Attachment, attachable: { user_id: @user.id }
     can :accept, Answer, question: { user_id: @user.id }
-    can :mark_as_best, Answer do |answer|
+    can :answer_best, Answer do |answer|
       @user.check_owner(answer.question)
     end
   end
