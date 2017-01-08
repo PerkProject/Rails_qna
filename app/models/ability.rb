@@ -16,6 +16,7 @@ class Ability
 
   def user_abilities
     can :create, [Question, Answer, Comment, Attachment]
+    can :me, User
     guest_abilities
     owner_abilities
     voting_abilities

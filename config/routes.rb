@@ -30,4 +30,12 @@ Rails.application.routes.draw do
 
   get 'terms' => 'pages#terms'
   get 'policy' => 'pages#policy'
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+      end
+    end
+  end
 end
