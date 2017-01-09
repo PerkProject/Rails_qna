@@ -16,7 +16,7 @@ class Ability
 
   def user_abilities
     can :create, [Question, Answer, Comment, Attachment]
-    can :me, User
+    api_abilities
     guest_abilities
     owner_abilities
     voting_abilities
@@ -40,5 +40,9 @@ class Ability
     can :vote, [Question, Answer] do |votable|
       !@user.check_owner(votable)
     end
+  end
+
+  def api_abilities
+    can [:me, :list], User
   end
 end
