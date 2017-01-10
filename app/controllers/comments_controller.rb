@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :get_comment, only: [:destroy]
   before_action :load_commentable, except: [:destroy]
   after_action :publish_comment, only: [:create]

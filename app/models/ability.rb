@@ -16,6 +16,7 @@ class Ability
 
   def user_abilities
     can :create, [Question, Answer, Comment, Attachment]
+    api_abilities
     guest_abilities
     owner_abilities
     voting_abilities
@@ -25,7 +26,7 @@ class Ability
     can [:update, :destroy], [Question, Answer, Comment], user_id: @user.id
     can :destroy, Attachment, attachable: { user_id: @user.id }
     can :accept, Answer, question: { user_id: @user.id }
-    can :mark_as_best, Answer do |answer|
+    can :answer_best, Answer do |answer|
       @user.check_owner(answer.question)
     end
   end
@@ -39,5 +40,9 @@ class Ability
     can :vote, [Question, Answer] do |votable|
       !@user.check_owner(votable)
     end
+  end
+
+  def api_abilities
+    can [:me, :list], User
   end
 end

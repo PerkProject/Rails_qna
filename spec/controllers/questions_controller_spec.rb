@@ -106,9 +106,9 @@ RSpec.describe QuestionsController, type: :controller do
        expect { delete :destroy, params: { id: @question }}.to_not change(Question,:count)
      end
 
-     it 'to be successful' do
+     it 'not to be successful' do
        delete :destroy, params: { id: @question }
-       expect(response).to be_successful
+       expect(response).not_to be_successful
      end
    end
 

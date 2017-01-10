@@ -1,4 +1,4 @@
--if can?(:mark_as_best, answer) && !answer.best
+-if can?(:answer_best, answer) && !answer.best
   =<>link_to 'make best', answer_best_answer_path(answer), method: :patch, id: 'make-as-best-link', remote: true
   | |
 -if can?(:edit, answer)

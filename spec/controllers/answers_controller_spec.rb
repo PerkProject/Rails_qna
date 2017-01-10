@@ -82,7 +82,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to question path' do
         delete :destroy, params: { id: @answer, question_id: @question }, format: :js
-        expect(response).to render_template :destroy
+        expect(response).not_to render_template :destroy
       end
       end
   end

@@ -17,11 +17,6 @@ RSpec.describe AttachmentsController, type: :controller do
         end.to change(Attachment, :count).by(0)
       end
 
-      it 'to be successful', js: true do
-        delete :destroy, params: { id: file }, format: :js
-        expect(response).to be_successful
-      end
-
     end
 
     context 'authenticated user can not delete attachment other user' do
@@ -32,11 +27,6 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'does not delete Attachment', js: true do
         expect { delete :destroy, params: { id: file }, format: :js }.to_not change(Attachment, :count)
-      end
-
-      it 'to be successful', js: true do
-        delete :destroy, params: { id: file }, format: :js
-        expect(response).to be_successful
       end
     end
   end

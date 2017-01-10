@@ -7,6 +7,7 @@ RSpec.describe Ability, type: :model do
     let(:user) { nil }
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
+    it { should_not be_able_to :read, User}
   end
 
   context 'when user authorized' do
@@ -45,7 +46,10 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :vote, create(:question, user: user) }
     it { should_not be_able_to :vote, create(:answer, user: user) }
 
-    it { should be_able_to :mark_as_best, create(:answer, question: question, user: user) }
-    it { should_not be_able_to :mark_as_best, other_user}
+    it { should be_able_to :answer_best, create(:answer, question: question, user: user) }
+    it { should_not be_able_to :answer_best, other_user}
+
+    it { should be_able_to :me, User }
+    it { should be_able_to :list, User }
   end
 end
