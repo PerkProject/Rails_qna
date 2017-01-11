@@ -98,4 +98,53 @@ describe 'Questions API' do
       end
     end
   end
+
+  describe 'POST #create' do
+    context 'when user is not authenticated' do
+      it 'return status 401 if there is no access token' do
+        post "/api/v1/questions", question: attributes_for(:question), format: :json
+        expect(response.status).to eq 401
+      end
+
+      it 'return status 401 if there is invalid access token' do
+        post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: '12345'
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'when user is authenticated' do
+      let!(:user) { create :user }
+      let!(:access_token) { create :access_token, resource_owner_id: user.id }
+      context 'valid params' do
+        it 'returns status 201' do
+          post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token
+          expect(response.status).to eq 201
+        end
+
+        it 'returns attributes of created question' do
+          post '/api/v1/questions', question: { title: 'Title', body: 'Body' }, access_token: access_token.token, format: :json
+          expect(response.body).to be_json_eql({ title: 'Title', body: 'Body' }.to_json).at_path('question')
+        end
+
+        it 'saves questions to database' do
+          expect { post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token }
+              .to change(user.questions, :count).by(1)
+        end
+
+
+      end
+
+      context 'invalid params' do
+        it 'returns status 422' do
+          post "/api/v1/questions", question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
+          expect(response.status).to eq 422
+        end
+
+        it 'saves questions to database' do
+          expect { post "/api/v1/questions", question: attributes_for(:invalid_question), format: :json, access_token: access_token.token }
+              .to_not change(Question, :count)
+        end
+      end
+    end
+  end
 end
