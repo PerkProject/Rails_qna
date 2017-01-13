@@ -1,11 +1,10 @@
-#require 'continuation'
-#require 'pry'
-#require 'pry-stack_explorer'
-#require 'plymouth'
+# require 'continuation'
+# require 'pry'
+# require 'pry-stack_explorer'
+# require 'plymouth'
 require 'capybara/email/rspec'
 
 RSpec.configure do |config|
-
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

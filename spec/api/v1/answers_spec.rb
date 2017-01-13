@@ -85,8 +85,8 @@ describe 'Answers API' do
           it "contains #{attr} in comment" do
             comment = comments.first
             expect(response.body)
-                .to be_json_eql(comment.send(attr.to_sym).to_json)
-                        .at_path("answer/comments/0/#{attr}")
+              .to be_json_eql(comment.send(attr.to_sym).to_json)
+              .at_path("answer/comments/0/#{attr}")
           end
         end
       end
@@ -96,8 +96,8 @@ describe 'Answers API' do
           attachment = attachments.last
           puts response.body
           expect(response.body)
-              .to be_json_eql(attachment.file.url.to_json)
-                      .at_path("answer/attachments/0/url")
+            .to be_json_eql(attachment.file.url.to_json)
+            .at_path("answer/attachments/0/url")
         end
       end
     end
@@ -152,7 +152,7 @@ describe 'Answers API' do
           expect do
             post "/api/v1/questions/#{question.id}/answers",
                  answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token
-          end.to_not change(Answer, :count)
+          end.not_to change(Answer, :count)
         end
       end
     end

@@ -41,7 +41,6 @@ describe 'Profile API' do
   end
 
   describe 'GET #index' do
-
     context 'unauthorized' do
       it 'returns 401 status if no access token' do
         get '/api/v1/profiles/list', format: :json
@@ -67,29 +66,29 @@ describe 'Profile API' do
         expect(response).to be_success
       end
 
-    %w(email id created_at updated_at).each do |attr|
-      it "contains #{attr}" do
-        users.each_with_index do |user, i|
-          expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("#{i}/#{attr}")
+      %w(email id created_at updated_at).each do |attr|
+        it "contains #{attr}" do
+          users.each_with_index do |user, i|
+            expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("#{i}/#{attr}")
+          end
         end
       end
-    end
 
-    %w(password encrypted_password).each do |attr|
-      it "does not contain #{attr}" do
-        users.each_index do |u|
-          expect(response.body).not_to have_json_path("#{u}/#{attr}")
+      %w(password encrypted_password).each do |attr|
+        it "does not contain #{attr}" do
+          users.each_index do |u|
+            expect(response.body).not_to have_json_path("#{u}/#{attr}")
+          end
         end
       end
-    end
 
-    it 'contains users profiles except users json' do
-      expect(response.body).to be_json_eql(users.to_json)
-    end
+      it 'contains users profiles except users json' do
+        expect(response.body).to be_json_eql(users.to_json)
+      end
 
-    it 'contains users profiles not except me' do
-      expect(response.body).to_not include_json(me.to_json)
-    end
+      it 'contains users profiles not except me' do
+        expect(response.body).not_to include_json(me.to_json)
+      end
     end
   end
 end

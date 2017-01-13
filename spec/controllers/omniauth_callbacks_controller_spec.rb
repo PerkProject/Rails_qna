@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe OmniauthCallbacksController, type: :controller do
-
   ['Facebook', 'Twitter'].each do |provider|
     describe "GET ##{provider.downcase.to_sym}" do
       context 'if auth valid' do
@@ -19,7 +18,6 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           expect(response).to render_template('devise/registrations/email_required')
         end
       end
-
     end
   end
 end

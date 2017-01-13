@@ -32,8 +32,8 @@ describe 'Questions API' do
         it "contains #{attr} in question" do
           question = questions.first
           expect(response.body)
-              .to be_json_eql(question.send(attr.to_sym).to_json)
-                      .at_path("questions/0/#{attr}")
+            .to be_json_eql(question.send(attr.to_sym).to_json)
+            .at_path("questions/0/#{attr}")
         end
       end
     end
@@ -72,8 +72,8 @@ describe 'Questions API' do
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr} in question" do
           expect(response.body)
-              .to be_json_eql(question.send(attr.to_sym).to_json)
-                      .at_path("question/#{attr}")
+            .to be_json_eql(question.send(attr.to_sym).to_json)
+            .at_path("question/#{attr}")
         end
       end
 
@@ -82,8 +82,8 @@ describe 'Questions API' do
           it "contains #{attr} in comment" do
             comment = comments.first
             expect(response.body)
-                .to be_json_eql(comment.send(attr.to_sym).to_json)
-                        .at_path("question/comments/0/#{attr}")
+              .to be_json_eql(comment.send(attr.to_sym).to_json)
+              .at_path("question/comments/0/#{attr}")
           end
         end
       end
@@ -92,8 +92,8 @@ describe 'Questions API' do
         it "contains url for each question attachment" do
           attachment = attachments.last
           expect(response.body)
-              .to be_json_eql(attachment.file.url.to_json)
-                      .at_path("question/attachments/0/url")
+            .to be_json_eql(attachment.file.url.to_json)
+            .at_path("question/attachments/0/url")
         end
       end
     end
@@ -128,10 +128,8 @@ describe 'Questions API' do
 
         it 'saves questions to database' do
           expect { post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token }
-              .to change(user.questions, :count).by(1)
+            .to change(user.questions, :count).by(1)
         end
-
-
       end
 
       context 'invalid params' do
@@ -142,7 +140,7 @@ describe 'Questions API' do
 
         it 'saves questions to database' do
           expect { post "/api/v1/questions", question: attributes_for(:invalid_question), format: :json, access_token: access_token.token }
-              .to_not change(Question, :count)
+            .not_to change(Question, :count)
         end
       end
     end

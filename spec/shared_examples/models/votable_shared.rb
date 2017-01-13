@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.shared_examples 'votable' do
   votable_klass_symbol = described_class.to_s.underscore.to_sym
 
-  it { should have_many(:votes).dependent(:destroy) }
+  it { is_expected.to have_many(:votes).dependent(:destroy) }
 
   let!(:votable) { create(votable_klass_symbol) }
 
@@ -17,5 +17,4 @@ RSpec.shared_examples 'votable' do
       expect(votable.rating).to eq(2)
     end
   end
-
-  end
+end
