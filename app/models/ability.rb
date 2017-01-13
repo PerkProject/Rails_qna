@@ -25,7 +25,7 @@ class Ability
   def owner_abilities
     can [:update, :destroy], [Question, Answer, Comment], user_id: @user.id
     can :destroy, Attachment, attachable: { user_id: @user.id }
-    can :accept, Answer, question: { user_id: @user.id }
+    can :make_best, Answer, question: { user_id: @user.id }
     can :answer_best, Answer do |answer|
       @user.check_owner(answer.question)
     end

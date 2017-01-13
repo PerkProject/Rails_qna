@@ -24,8 +24,8 @@ RSpec.describe Ability, type: :model do
     it { is_expected.to be_able_to :create, Comment }
     it { is_expected.to be_able_to :create, Attachment }
 
-    it { is_expected.to be_able_to :accept, create(:answer, question: question) }
-    it { is_expected.not_to be_able_to :accept, create(:answer, question: other_question) }
+    it { is_expected.to be_able_to :make_best, create(:answer, question: question) }
+    it { is_expected.not_to be_able_to :make_best, create(:answer, question: other_question) }
 
     it { is_expected.to be_able_to :destroy, create(:question, user: user) }
     it { is_expected.to be_able_to :destroy, create(:answer, user: user) }
