@@ -64,7 +64,7 @@ describe 'Answers API' do
       let(:comments) { create_list(:comment, 2) }
       let(:attachments) { create_list(:attachment, 2) }
 
-      before do
+      before :each do
         answer.comments << comments
         answer.attachments << attachments
         get "/api/v1/answers/#{answer.id}", format: :json, access_token: access_token.token
@@ -127,10 +127,16 @@ describe 'Answers API' do
           expect(response.status).to eq 201
         end
 
+        it 'return success' do
+          post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
+          expect(response).to be_success
+        end
+
         it 'returns attributes of created answer' do
+          new_body = "test body"
           post "/api/v1/questions/#{question.id}/answers",
-               answer: { body: 'Body' }, access_token: access_token.token, format: :json
-          expect(response.body).to be_json_eql({ body: 'Body' }.to_json).at_path('answer')
+               answer: { body: new_body }, access_token: access_token.token, format: :json
+          expect(response.body).to be_json_eql(new_body.to_json).at_path('answer/body')
         end
 
         it 'saves answer to database' do

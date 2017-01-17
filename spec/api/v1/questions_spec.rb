@@ -121,9 +121,22 @@ describe 'Questions API' do
           expect(response.status).to eq 201
         end
 
-        it 'returns attributes of created question' do
-          post '/api/v1/questions', question: { title: 'Title', body: 'Body' }, access_token: access_token.token, format: :json
-          expect(response.body).to be_json_eql({ title: 'Title', body: 'Body' }.to_json).at_path('question')
+        it 'returns success' do
+          post '/api/v1/questions', params: { question: attributes_for(:question), format: :json, access_token: access_token.token }
+          expect(response).to be_success
+        end
+
+        it 'return question json with new body' do
+          new_body = "test body"
+          post '/api/v1/questions', params: { question: attributes_for(:question, body: new_body), format: :json, access_token: access_token.token }
+          expect(response.body).to be_json_eql(new_body.to_json).at_path("question/body")
+        end
+
+        it 'return question json with new title' do
+          new_title = "test title"
+          post '/api/v1/questions', params: { question: attributes_for(:question, title: new_title), format: :json, access_token: access_token.token }
+          puts response.body
+          expect(response.body).to be_json_eql(new_title.to_json).at_path("question/title")
         end
 
         it 'saves questions to database' do

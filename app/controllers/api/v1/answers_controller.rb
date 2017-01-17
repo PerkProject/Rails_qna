@@ -4,17 +4,17 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def index
     @answers = @question.answers
-    respond_with @answers, each_serializer: Answers::IndexSerializer
+    respond_with @answers
   end
 
   def show
     @answer = Answer.find(params[:id])
-    respond_with @answer, serializer: Answers::ShowSerializer
+    respond_with @answer
   end
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_resource_owner))
-    respond_with @answer, serializer: Answers::CreateSerializer
+    respond_with @answer
   end
 
   private
