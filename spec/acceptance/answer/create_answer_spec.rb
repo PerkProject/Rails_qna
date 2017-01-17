@@ -1,10 +1,10 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'Create answer for question', %q{
+feature 'Create answer for question', '
   In order to create answer for current question
   As an authenticated user
   I want to be able to write answer for question
-} do
+' do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
@@ -14,12 +14,12 @@ feature 'Create answer for question', %q{
     visit question_path(question)
 
     within '.create-answers' do
-    fill_in 'Your answer', with: 'Test answer body'
-    click_on 'Create answer'
+      fill_in 'Your answer', with: 'Test answer body'
+      click_on 'Create answer'
     end
-    #within '.answers' do
+    # within '.answers' do
     expect(page).to have_content 'Test answer body'
-    #end
+    # end
   end
 
   scenario 'Non-authenticated user ties to create answer' do
@@ -34,9 +34,8 @@ feature 'Create answer for question', %q{
     visit question_path(question)
 
     click_on 'Create answer'
-  #  page.driver.debug
+    #  page.driver.debug
     expect(page).to have_content "Body can't be blank"
     expect(page).not_to have_content 'You answer successfully created.'
   end
-
 end

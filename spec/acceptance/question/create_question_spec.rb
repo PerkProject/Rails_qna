@@ -1,15 +1,14 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'Create question', %q{
+feature 'Create question', '
   It order to get answer from community
   As an authenticated user
   I want to be able to ask questions
-} do
+' do
 
   given(:user) { create(:user) }
 
   scenario 'Authenticated user creates question' do
-
     sign_in(user)
 
     visit questions_path
@@ -39,5 +38,4 @@ feature 'Create question', %q{
     expect(page).to have_content "Body can't be blank"
     expect(page).to have_content "Title is too short (minimum is 5 characters)"
   end
-
 end

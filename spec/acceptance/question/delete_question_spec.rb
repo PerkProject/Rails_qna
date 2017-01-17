@@ -1,13 +1,13 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'author can delete your question', %q{
+feature 'author can delete your question', '
   In order only author can delete question
   An author of question
   I want to be able delete question
-} do
+' do
   given(:user) { create(:user) }
 
-  before(:each) do
+  before do
     sign_in(user)
     @question = create(:question, user: user)
   end
@@ -17,7 +17,7 @@ feature 'author can delete your question', %q{
 
     click_on 'delete question'
 
-    expect(page).to_not have_content @question.title
+    expect(page).not_to have_content @question.title
     expect(page).to have_content 'Question was successfully destroyed.'
   end
 
@@ -26,7 +26,7 @@ feature 'author can delete your question', %q{
     sign_in(create(:user))
     visit question_path(@question)
 
-    expect(page).to_not have_link 'delete question'
+    expect(page).not_to have_link 'delete question'
   end
 
   scenario 'Non-authenticated user can not delete question' do
@@ -34,7 +34,6 @@ feature 'author can delete your question', %q{
 
     visit question_path(@question)
 
-    expect(page).to_not have_link 'delete question'
+    expect(page).not_to have_link 'delete question'
   end
-
 end

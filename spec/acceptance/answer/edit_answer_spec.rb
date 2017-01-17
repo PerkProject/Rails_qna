@@ -1,10 +1,10 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'Edit answer', %q{
+feature 'Edit answer', '
   In order to control editing answer
   As an author of answer
   I want to be able to edit answer
-} do
+' do
 
   given(:user)       { create(:user) }
   given!(:question)  { create :question, user_id: user.id }
@@ -14,7 +14,7 @@ feature 'Edit answer', %q{
   scenario "Non-authenticated user try to edit answer" do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).not_to have_link 'Edit answer'
   end
 
   scenario 'Author edit his own answer', js: true do
@@ -28,9 +28,9 @@ feature 'Edit answer', %q{
     click_on 'Cancel'
 
     within '.answers' do
-     expect(page).to have_content 'EditAnswerText'
-     expect(page).to have_no_content answer.body
-  end
+      expect(page).to have_content 'EditAnswerText'
+      expect(page).to have_no_content answer.body
+    end
   end
 
   scenario 'Authenticated user make invalid answer', js: true do
@@ -40,19 +40,17 @@ feature 'Edit answer', %q{
     click_on 'edit answer'
 
     within ("#answer-#{answer.id}") do
-     fill_in 'Edit your answer:' , with: ''
-     click_on 'Save'
+      fill_in 'Edit your answer:', with: ''
+      click_on 'Save'
     end
 
     expect(page).to have_content "Body can't be blank"
-
   end
 
   scenario 'Authenticated user cannot edit other users answer' do
     sign_in(other_user)
     visit question_path(question)
 
-    expect(page).to_not have_link 'edit answer'
+    expect(page).not_to have_link 'edit answer'
   end
-
 end

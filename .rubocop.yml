@@ -6,13 +6,14 @@ AllCops:
     - 'config/**/*.rb'
     - 'lib/**/*.rb'
     - 'lib/**/*.rake'
+    - 'spec/**/*.rb'
   Exclude:
     - 'vendor/**/*'
     - 'db/**/*.rb'
     - 'bin/**/*'
-    - 'spec/**/*.rb'
     - 'lib/**/*.rake'
     - 'public/uploads/**/*'
+    - 'config/initializers/*.rb'
 
 Rails:
   Enabled: true

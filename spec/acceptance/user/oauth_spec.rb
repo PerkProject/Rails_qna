@@ -1,14 +1,13 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'Oauth user sign in', %q{
+feature 'Oauth user sign in', '
   User able to sign in with his social network account
-} do
+' do
 
   scenario 'sign in with oauth provider' do
     ['Facebook', 'Twitter'].each do |provider|
       clear_emails
       email = "name@mail-12345-#{provider.downcase}.com"
-
 
       mock_auth_hash(provider)
       visit new_user_session_path
@@ -39,15 +38,14 @@ feature 'Oauth user sign in', %q{
     end
   end
 
-    scenario 'try to sign in with invalid oauth provider', js: true do
-      ['Facebook', 'Twitter'].each do |provider|
-        visit new_user_session_path
-        expect(page).to have_content("Sign in with #{provider}"), match: :first
-        invalid_mock_auth_hash(provider)
-        click_on "Sign in with #{provider}", match: :first
+  scenario 'try to sign in with invalid oauth provider', js: true do
+    ['Facebook', 'Twitter'].each do |provider|
+      visit new_user_session_path
+      expect(page).to have_content("Sign in with #{provider}"), match: :first
+      invalid_mock_auth_hash(provider)
+      click_on "Sign in with #{provider}", match: :first
 
-        expect(page).to have_content("Could not authenticate you from #{provider} because \"Invalid credentials\".")
-      end
+      expect(page).to have_content("Could not authenticate you from #{provider} because \"Invalid credentials\".")
     end
-
+  end
 end

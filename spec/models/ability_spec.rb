@@ -5,9 +5,9 @@ RSpec.describe Ability, type: :model do
 
   context 'when user guest' do
     let(:user) { nil }
-    it { should be_able_to :read, :all }
-    it { should_not be_able_to :manage, :all }
-    it { should_not be_able_to :read, User}
+    it { is_expected.to be_able_to :read, :all }
+    it { is_expected.not_to be_able_to :manage, :all }
+    it { is_expected.not_to be_able_to :read, User }
   end
 
   context 'when user authorized' do
@@ -17,39 +17,39 @@ RSpec.describe Ability, type: :model do
     let(:question) { create :question, user: user }
     let(:other_question) { create :question, user: other_user }
 
-    it { should be_able_to :read, :all }
+    it { is_expected.to be_able_to :read, :all }
 
-    it { should be_able_to :create, Question }
-    it { should be_able_to :create, Answer }
-    it { should be_able_to :create, Comment }
-    it { should be_able_to :create, Attachment }
+    it { is_expected.to be_able_to :create, Question }
+    it { is_expected.to be_able_to :create, Answer }
+    it { is_expected.to be_able_to :create, Comment }
+    it { is_expected.to be_able_to :create, Attachment }
 
-    it { should be_able_to :accept, create(:answer, question: question) }
-    it { should_not be_able_to :accept, create(:answer, question: other_question) }
+    it { is_expected.to be_able_to :make_best, create(:answer, question: question) }
+    it { is_expected.not_to be_able_to :make_best, create(:answer, question: other_question) }
 
-    it { should be_able_to :destroy, create(:question, user: user) }
-    it { should be_able_to :destroy, create(:answer, user: user) }
-    it { should be_able_to :destroy, create(:attachment, attachable: question) }
-    it { should be_able_to :destroy, create(:comment, user: user) }
-    it { should_not be_able_to :destroy, create(:question, user: other_user) }
-    it { should_not be_able_to :destroy, create(:answer, user: other_user) }
-    it { should_not be_able_to :destroy, create(:attachment, attachable: other_question) }
-    it { should_not be_able_to :destroy, create(:comment, user: other_user) }
+    it { is_expected.to be_able_to :destroy, create(:question, user: user) }
+    it { is_expected.to be_able_to :destroy, create(:answer, user: user) }
+    it { is_expected.to be_able_to :destroy, create(:attachment, attachable: question) }
+    it { is_expected.to be_able_to :destroy, create(:comment, user: user) }
+    it { is_expected.not_to be_able_to :destroy, create(:question, user: other_user) }
+    it { is_expected.not_to be_able_to :destroy, create(:answer, user: other_user) }
+    it { is_expected.not_to be_able_to :destroy, create(:attachment, attachable: other_question) }
+    it { is_expected.not_to be_able_to :destroy, create(:comment, user: other_user) }
 
-    it { should be_able_to :update, create(:question, user: user) }
-    it { should be_able_to :update, create(:answer, user: user) }
-    it { should_not be_able_to :update, create(:question, user: other_user) }
-    it { should_not be_able_to :update, create(:answer, user: other_user) }
+    it { is_expected.to be_able_to :update, create(:question, user: user) }
+    it { is_expected.to be_able_to :update, create(:answer, user: user) }
+    it { is_expected.not_to be_able_to :update, create(:question, user: other_user) }
+    it { is_expected.not_to be_able_to :update, create(:answer, user: other_user) }
 
-    it { should be_able_to :vote, create(:question, user: other_user) }
-    it { should be_able_to :vote, create(:answer, user: other_user) }
-    it { should_not be_able_to :vote, create(:question, user: user) }
-    it { should_not be_able_to :vote, create(:answer, user: user) }
+    it { is_expected.to be_able_to :vote, create(:question, user: other_user) }
+    it { is_expected.to be_able_to :vote, create(:answer, user: other_user) }
+    it { is_expected.not_to be_able_to :vote, create(:question, user: user) }
+    it { is_expected.not_to be_able_to :vote, create(:answer, user: user) }
 
-    it { should be_able_to :answer_best, create(:answer, question: question, user: user) }
-    it { should_not be_able_to :answer_best, other_user}
+    it { is_expected.to be_able_to :answer_best, create(:answer, question: question, user: user) }
+    it { is_expected.not_to be_able_to :answer_best, other_user }
 
-    it { should be_able_to :me, User }
-    it { should be_able_to :list, User }
+    it { is_expected.to be_able_to :me, User }
+    it { is_expected.to be_able_to :list, User }
   end
 end

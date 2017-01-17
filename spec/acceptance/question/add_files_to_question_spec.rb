@@ -1,10 +1,10 @@
 require_relative '../../../spec/acceptance/acceptance_helper'
 
-feature 'Add files to question', %q{
+feature 'Add files to question', "
   In order to illustrate my question
   As an question's author
   I'd like to be able to attach files
-} do
+" do
 
   given(:user) { create(:user) }
 
@@ -15,8 +15,7 @@ feature 'Add files to question', %q{
     fill_in 'Body', with: 'text text text'
   end
 
-  scenario 'User adds file when asks question', js:true  do
-
+  scenario 'User adds file when asks question', js: true do
     click_on 'Add file'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create'
@@ -24,8 +23,7 @@ feature 'Add files to question', %q{
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
   end
 
-  scenario 'User can attach two files to question', js:true do
-
+  scenario 'User can attach two files to question', js: true do
     click_on 'Add file'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Add file'

@@ -16,7 +16,6 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create, params: answer_params
         end.to change(question.answers, :count).by(1)
-
       end
 
       it 'persists an answer with author' do
@@ -29,7 +28,6 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: answer_params
         expect(response).to render_template :create
       end
-
     end
 
     context 'invalid answer' do
@@ -57,7 +55,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'author delete you answer' do
-
       it 'delete answer in database' do
         expect do
           delete :destroy, params: { id: @answer, question_id: @question }, format: :js
@@ -77,14 +74,14 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'does not delete answer' do
-        expect { delete :destroy, params: { id: @answer, question_id: @question }, format: :js}.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: @answer, question_id: @question }, format: :js }.not_to change(Answer, :count)
       end
 
       it 'redirect to question path' do
         delete :destroy, params: { id: @answer, question_id: @question }, format: :js
         expect(response).not_to render_template :destroy
       end
-      end
+    end
   end
 
   describe 'PATCH update' do
@@ -96,14 +93,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'author edit you answer' do
-
       it 'edit answer with valid params' do
         patch :update, id: @answer, question_id: @question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer)).to eq @answer
       end
 
       it 'edit answer with invalid params' do
-        patch :update, id: @answer, question_id: @question, format: :js, params: { id: @answer, answer: { body: nil} }
+        patch :update, id: @answer, question_id: @question, format: :js, params: { id: @answer, answer: { body: nil } }
         @answer.reload
         expect(@answer.body).not_to eq nil
       end
@@ -119,14 +115,14 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'assigns the requested answer to @answer' do
         patch :update, params: {
-            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+          answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
         }
         expect(assigns(:answer)).to eq(@answer)
       end
 
       it 'assigns the question' do
         patch :update, params: {
-            answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
+          answer: attributes_for(:answer), question_id: question, id: @answer, format: :js
         }
         expect(assigns(:question)).to eq(@question)
       end
@@ -134,7 +130,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'not change the answer attributes' do
         before_body = @answer.body
         patch :update, params: {
-            answer: { body: 'new body' }, question_id: question, id: @answer, format: :js
+          answer: { body: 'new body' }, question_id: question, id: @answer, format: :js
         }
         @answer.reload
         expect(@answer.body).to eq(before_body)
@@ -168,7 +164,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'render best_answer template' do
         expect(response).to render_template :answer_best
       end
-
     end
 
     context 'Non-author of question' do

@@ -32,7 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #new' do
     sign_in_user
 
-    before  { get :new }
+    before { get :new }
 
     it 'renders new view' do
       expect(response).to render_template(:new)
@@ -79,13 +79,12 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-
     context 'Author delete your question' do
       sign_in_user
       before { @question = create(:question, user: @user) }
 
       it 'delete question' do
-        expect { delete :destroy, params: { id: @question }}.to change(Question,:count).by(-1)
+        expect { delete :destroy, params: { id: @question } }.to change(Question, :count).by(-1)
       end
 
       it 'redirects to questions list' do
@@ -94,23 +93,22 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-   context 'Non-Author delete your question' do
-     sign_in_user
-     before do
-       @question = create(:question, user: @user)
-       sign_out @user
-       sign_in(create(:user))
-     end
+    context 'Non-Author delete your question' do
+      sign_in_user
+      before do
+        @question = create(:question, user: @user)
+        sign_out @user
+        sign_in(create(:user))
+      end
 
-     it 'not delete question' do
-       expect { delete :destroy, params: { id: @question }}.to_not change(Question,:count)
-     end
+      it 'not delete question' do
+        expect { delete :destroy, params: { id: @question } }.not_to change(Question, :count)
+      end
 
-     it 'not to be successful' do
-       delete :destroy, params: { id: @question }
-       expect(response).not_to be_successful
-     end
-   end
-
+      it 'not to be successful' do
+        delete :destroy, params: { id: @question }
+        expect(response).not_to be_successful
+      end
+    end
   end
 end

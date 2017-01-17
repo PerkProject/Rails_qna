@@ -8,8 +8,8 @@ RSpec.describe CommentsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves comment to db' do
-        expect { process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question }, format: :js
-                          }.to change(question.comments, :count).by(1)
+        expect do process :create, method: :post, params: { comment: attributes_for(:comment), question_id: question }, format: :js
+        end.to change(question.comments, :count).by(1)
       end
 
       it 'responds with json, status code 201 (created)' do
@@ -22,9 +22,9 @@ RSpec.describe CommentsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save comment to db' do
-        expect { process :create, method: :post,
-                         params: { comment: attributes_for(:invalid_comment), question_id: question }, format: :js
-                          }.to_not change(Comment, :count)
+        expect do process :create, method: :post,
+                                   params: { comment: attributes_for(:invalid_comment), question_id: question }, format: :js
+        end.not_to change(Comment, :count)
       end
 
       it 'responds with status 200' do
@@ -36,7 +36,6 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'GET #new' do
-
     before { get :new, xhr: true, params: { question_id: question }, format: :js }
 
     it 'assigns question to @commentable' do
@@ -57,11 +56,11 @@ RSpec.describe CommentsController, type: :controller do
     let!(:comment) { create(:comment, commentable: question) }
     sign_in_user
 
-      let!(:users_comment) { create(:comment, commentable: question, user: @user) }
+    let!(:users_comment) { create(:comment, commentable: question, user: @user) }
 
-      it 'deletes comment from db' do
-        expect { process :destroy, method: :delete, params: { id: users_comment.id }, format: :js }
-            .to change(question.comments, :count).by(-1)
-      end
+    it 'deletes comment from db' do
+      expect { process :destroy, method: :delete, params: { id: users_comment.id }, format: :js }
+        .to change(question.comments, :count).by(-1)
+    end
   end
 end

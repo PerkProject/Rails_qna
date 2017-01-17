@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def require_email_for_auth
     auth = session['devise.omiauth.auth']
 

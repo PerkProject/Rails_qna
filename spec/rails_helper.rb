@@ -14,7 +14,6 @@ OmniAuth.config.test_mode = true
 OmniAuth.config.logger = Rails.logger
 
 RSpec.configure do |config|
-
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.use_transactional_fixtures = true
