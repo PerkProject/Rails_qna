@@ -1,7 +1,7 @@
 shared_examples_for 'API collection' do |attributes|
   let!(:access_token) { FactoryGirl.create(:access_token) }
   let(:collection_name) { collection.first.class.to_s.underscore.pluralize }
-  before { send(http_method, path, {format: :json, access_token: access_token.token }.merge(try(:options) || {} )) }
+  before { send(http_method, path, { format: :json, access_token: access_token.token }.merge(try(:options) || {})) }
 
   context 'authorized' do
     it 'returns 200 status code' do

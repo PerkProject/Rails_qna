@@ -3,7 +3,5 @@ class Api::V1::AnswerSerializer < ActiveModel::Serializer
   has_many :attachments
   has_many :comments
 
-  def question_id
-    object.question_id
-  end
+  delegate :question_id, to: :object
 end
