@@ -3,19 +3,10 @@ require 'rails_helper'
 describe 'Answers API' do
   let(:question) { create :question }
   describe 'GET #index' do
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    it_behaves_like 'API authenticable'
     let(:answers) { create_list(:answer, 2) }
-
-    context 'when user is not authenticated' do
-      it 'return status 401 if there is no access token' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'return status 401 if there is invalid access token' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
 
     context 'when user is authenticated' do
       let(:access_token) { create :access_token }
@@ -46,25 +37,16 @@ describe 'Answers API' do
 
   describe 'GET #show' do
     let(:answer) { create(:answer, question: question) }
-
-    context 'when user is not authenticated' do
-      it 'return status 401 if there is no access token' do
-        get "/api/v1/answers/#{answer.id}", format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'return status 401 if there is invalid access token' do
-        get "/api/v1/answers/#{answer.id}", format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    it_behaves_like 'API authenticable'
 
     context 'when user is authenticated' do
       let(:access_token) { create :access_token }
       let(:comments) { create_list(:comment, 2) }
       let(:attachments) { create_list(:attachment, 2) }
 
-      before :each do
+      before do
         answer.comments << comments
         answer.attachments << attachments
         get "/api/v1/answers/#{answer.id}", format: :json, access_token: access_token.token
@@ -105,17 +87,9 @@ describe 'Answers API' do
 
   describe 'POST #create' do
     let(:question) { create :question }
-    context 'when user is not authenticated' do
-      it 'return status 401 if there is no access token' do
-        post "/api/v1/questions/#{question.id}/answers", format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'return status 401 if there is invalid access token' do
-        post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    it_behaves_like 'API authenticable'
 
     context 'when user is authenticated' do
       let!(:user) { create :user }

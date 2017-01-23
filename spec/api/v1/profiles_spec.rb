@@ -2,19 +2,9 @@ require 'rails_helper'
 
 describe 'Profile API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if no access token' do
-        get '/api/v1/profiles/me', format: :json
-
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access token invalid' do
-        get '/api/v1/profiles/me', format: :json, access_token: '1234'
-
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { '/api/v1/profiles/me' }
+    it_behaves_like 'API authenticable'
 
     context 'authorized' do
       let(:me) { FactoryGirl.create(:user) }
@@ -41,19 +31,9 @@ describe 'Profile API' do
   end
 
   describe 'GET #index' do
-    context 'unauthorized' do
-      it 'returns 401 status if no access token' do
-        get '/api/v1/profiles/list', format: :json
-
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access token invalid' do
-        get '/api/v1/profiles/list', format: :json, access_token: '1234'
-
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { '/api/v1/profiles/me' }
+    it_behaves_like 'API authenticable'
 
     context 'authorized' do
       let(:me) { FactoryGirl.create(:user) }
