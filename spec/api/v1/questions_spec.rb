@@ -20,7 +20,7 @@ describe 'Questions API' do
       end
 
       it 'return status 401 if there is invalid access token' do
-        get "/api/v1/questions/#{question.id}", format: :json, access_token: '12345'
+        get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: '12345' }
         expect(response.status).to eq 401
       end
     end
@@ -33,7 +33,7 @@ describe 'Questions API' do
       before do
         question.comments << comments
         question.attachments << attachments
-        get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token
+        get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token }
       end
 
       it 'returns status 200' do
@@ -80,7 +80,7 @@ describe 'Questions API' do
       let!(:access_token) { create :access_token, resource_owner_id: user.id }
       context 'valid params' do
         it 'returns status 201' do
-          post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token
+          post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: access_token.token }
           expect(response.status).to eq 201
         end
 
@@ -103,19 +103,19 @@ describe 'Questions API' do
         end
 
         it 'saves questions to database' do
-          expect { post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token }
+          expect { post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: access_token.token } }
             .to change(user.questions, :count).by(1)
         end
       end
 
       context 'invalid params' do
         it 'returns status 422' do
-          post "/api/v1/questions", question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
+          post "/api/v1/questions", params: { question: attributes_for(:invalid_question), format: :json, access_token: access_token.token }
           expect(response.status).to eq 422
         end
 
         it 'saves questions to database' do
-          expect { post "/api/v1/questions", question: attributes_for(:invalid_question), format: :json, access_token: access_token.token }
+          expect { post "/api/v1/questions", params: { question: attributes_for(:invalid_question), format: :json, access_token: access_token.token } }
             .not_to change(Question, :count)
         end
       end

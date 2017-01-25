@@ -13,7 +13,7 @@ describe 'Answers API' do
 
       before do
         question.answers << answers
-        get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token
+        get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: access_token.token }
       end
 
       it 'responds with status 200' do
@@ -49,7 +49,7 @@ describe 'Answers API' do
       before do
         answer.comments << comments
         answer.attachments << attachments
-        get "/api/v1/answers/#{answer.id}", format: :json, access_token: access_token.token
+        get "/api/v1/answers/#{answer.id}", params: { format: :json, access_token: access_token.token }
       end
 
       it 'responds with status 200' do
@@ -96,8 +96,7 @@ describe 'Answers API' do
       let(:access_token) { create :access_token, resource_owner_id: user.id }
       context 'valid params' do
         it 'returns status 201' do
-          post "/api/v1/questions/#{question.id}/answers",
-               answer: attributes_for(:answer), format: :json, access_token: access_token.token
+          post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
           expect(response.status).to eq 201
         end
 
@@ -108,30 +107,26 @@ describe 'Answers API' do
 
         it 'returns attributes of created answer' do
           new_body = "test body"
-          post "/api/v1/questions/#{question.id}/answers",
-               answer: { body: new_body }, access_token: access_token.token, format: :json
+          post "/api/v1/questions/#{question.id}/answers", params: { answer: { body: new_body }, access_token: access_token.token, format: :json }
           expect(response.body).to be_json_eql(new_body.to_json).at_path('answer/body')
         end
 
         it 'saves answer to database' do
           expect do
-            post "/api/v1/questions/#{question.id}/answers",
-                 answer: attributes_for(:answer), format: :json, access_token: access_token.token
+            post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
           end.to change(user.answers, :count).by(1)
         end
       end
 
       context 'invalid params' do
         it 'returns status 422' do
-          post "/api/v1/questions/#{question.id}/answers",
-               answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token
+          post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token }
           expect(response.status).to eq 422
         end
 
         it 'does not saves answer to database' do
           expect do
-            post "/api/v1/questions/#{question.id}/answers",
-                 answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token
+            post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token }
           end.not_to change(Answer, :count)
         end
       end

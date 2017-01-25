@@ -3,6 +3,9 @@ class Question < ApplicationRecord
   include Votable
   include Attachable
   include Commentable
+
+  scope :to_daily_digest, -> { where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight) }
+
   has_many :answers, dependent: :destroy
   belongs_to :user
 
