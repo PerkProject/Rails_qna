@@ -10,11 +10,19 @@ class Answer < ApplicationRecord
 
   default_scope { order(best: :desc) }
 
+  after_create :send_notification
+
   def mark_as_best
     Answer.transaction do
       question.answers.update_all(best: false)
       raise ActiveRecord::Rollback if question.answers.where(best: false).exists?(true)
       update(best: true)
     end
+  end
+
+  private
+
+  def send_notification
+    NotificationsMailer.new_answer(self, question.user.email).deliver_later
   end
 end

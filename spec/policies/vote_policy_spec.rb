@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe VotePolicy do
-
   let(:user) { User.new }
 
   subject { described_class }

@@ -32,4 +32,12 @@ RSpec.describe Answer, type: :model do
       expect(answer2).to be_best
     end
   end
+
+  describe '#send_notification' do
+    let(:answer) { build :answer }
+    it 'sends email when email is created' do
+      expect(NotificationsMailer).to receive(:new_answer).with(answer, answer.question.user.email).and_call_original
+      answer.save!
+    end
+  end
 end
