@@ -7,6 +7,7 @@ RSpec.describe User do
   it { is_expected.to have_many :questions }
   it { is_expected.to have_many(:votes) }
   it { is_expected.to have_many(:comments) }
+  it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
 
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }

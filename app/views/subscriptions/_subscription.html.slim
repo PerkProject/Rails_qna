@@ -1,0 +1,8 @@
+- if current_user && current_user.subscriptions.find_by(question_id: @question.id)
+  b.subscribed you are subscribed on this question
+- if current_user
+  .subscription
+  - if current_user.subscriptions.find_by(question_id: @question.id)
+      = link_to 'cancel subscription',subscription_path(@question.subscriptions.find_by(user_id:current_user.id)), method: :delete, remote: true, id: 'button_unsubscribe', class: 'btn btn-default'
+  - else
+      = button_to 'subscribe', question_subscriptions_path(@question), remote: true, id: 'button_subscribe', class: 'btn btn-default'

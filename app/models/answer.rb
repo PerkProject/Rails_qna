@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
 
   default_scope { order(best: :desc) }
 
-  after_create :send_notification
+  after_create :notify_question_subscribers
 
   def mark_as_best
     Answer.transaction do
@@ -22,7 +22,7 @@ class Answer < ApplicationRecord
 
   private
 
-  def send_notification
-    NotificationsMailer.new_answer(self, question.user.email).deliver_later
+  def notify_question_subscribers
+    NotifySubscribersJob.perform_later(self, question)
   end
 end

@@ -23,6 +23,7 @@ RSpec.describe Ability, type: :model do
     it { is_expected.to be_able_to :create, Answer }
     it { is_expected.to be_able_to :create, Comment }
     it { is_expected.to be_able_to :create, Attachment }
+    it { is_expected.to be_able_to :create, Subscription }
 
     it { is_expected.to be_able_to :make_best, create(:answer, question: question) }
     it { is_expected.not_to be_able_to :make_best, create(:answer, question: other_question) }
@@ -35,6 +36,7 @@ RSpec.describe Ability, type: :model do
     it { is_expected.not_to be_able_to :destroy, create(:answer, user: other_user) }
     it { is_expected.not_to be_able_to :destroy, create(:attachment, attachable: other_question) }
     it { is_expected.not_to be_able_to :destroy, create(:comment, user: other_user) }
+    it { is_expected.to be_able_to :destroy, create(:subscription, user: user) }
 
     it { is_expected.to be_able_to :update, create(:question, user: user) }
     it { is_expected.to be_able_to :update, create(:answer, user: user) }

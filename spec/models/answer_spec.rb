@@ -33,10 +33,12 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe '#send_notification' do
-    let(:answer) { build :answer }
-    it 'sends email when email is created' do
-      expect(NotificationsMailer).to receive(:new_answer).with(answer, answer.question.user.email).and_call_original
+  describe '#notify_question_subscribers' do
+    let(:question) { create :question }
+    let(:answer) { build :answer, question: question }
+
+    it 'sends email to question owner and subscribers when answer is created' do
+      expect(NotifySubscribersJob).to receive(:perform_later).with(answer, question)
       answer.save!
     end
   end
