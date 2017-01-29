@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
 
   default_scope { order(best: :desc) }
 
-  after_create :notify_question_subscribers
+  after_commit :notify_question_subscribers
 
   def mark_as_best
     Answer.transaction do
