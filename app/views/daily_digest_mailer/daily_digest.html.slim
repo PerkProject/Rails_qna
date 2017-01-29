@@ -1,0 +1,6 @@
+ul
+  - if @questions.any?
+    - @questions.each do |question|
+      li= question.title
+  - else
+    p No question

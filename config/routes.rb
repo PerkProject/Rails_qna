@@ -1,5 +1,9 @@
 # frozen_string_literal: true
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
@@ -23,6 +27,7 @@ Rails.application.routes.draw do
     resources :answers, concerns: [:votable, :commentable], only: [:create, :update, :destroy, :edit], shallow: true do
       patch :answer_best, on: :member
     end
+    resources :subscriptions, only: [:create, :destroy], shallow: true
   end
 
   resources :attachments, only: [:destroy]

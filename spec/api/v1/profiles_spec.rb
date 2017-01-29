@@ -10,7 +10,7 @@ describe 'Profile API' do
       let(:me) { FactoryGirl.create(:user) }
       let(:access_token) { FactoryGirl.create(:access_token, resource_owner_id: me.id) }
 
-      before { get '/api/v1/profiles/me', format: :json, access_token: access_token.token }
+      before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
 
       it 'returns 200 status' do
         expect(response).to be_success
@@ -40,7 +40,7 @@ describe 'Profile API' do
       let!(:users) { FactoryGirl.create_list(:user, 3) }
       let(:access_token) { FactoryGirl.create(:access_token, resource_owner_id: me.id) }
 
-      before { get '/api/v1/profiles/list', format: :json, access_token: access_token.token }
+      before { get '/api/v1/profiles/list', params: { format: :json, access_token: access_token.token } }
 
       it 'returns 200 status' do
         expect(response).to be_success

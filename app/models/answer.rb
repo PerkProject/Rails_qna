@@ -10,11 +10,19 @@ class Answer < ApplicationRecord
 
   default_scope { order(best: :desc) }
 
+  after_commit :notify_question_subscribers
+
   def mark_as_best
     Answer.transaction do
       question.answers.update_all(best: false)
       raise ActiveRecord::Rollback if question.answers.where(best: false).exists?(true)
       update(best: true)
     end
+  end
+
+  private
+
+  def notify_question_subscribers
+    NotifySubscribersJob.perform_later(self, question)
   end
 end

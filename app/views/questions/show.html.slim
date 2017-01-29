@@ -12,7 +12,8 @@ h1#caption= @question.title
     = render @question.comments
   .div id="question-#{@question.id}-attachments" class = 'question-attachments'
     = render 'attachments', question: @question
-
+  .div id="question-#{@question.id}-subscriptions" class = 'question-subscriptions'
+    = render 'subscriptions/subscription', question: @question
   .answers
     table.table.table#answers
       tbody

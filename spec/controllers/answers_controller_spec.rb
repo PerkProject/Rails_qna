@@ -94,7 +94,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'author edit you answer' do
       it 'edit answer with valid params' do
-        patch :update, id: @answer, question_id: @question, answer: attributes_for(:answer), format: :js
+        patch :update, params: { id: @answer, question_id: @question, answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq @answer
       end
 
@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'assigns the question' do
-        patch :update, id: @answer, question_id: question, answer: attributes_for(:answer), format: :js
+        patch :update, params: { id: @answer, question_id: question, answer: attributes_for(:answer), format: :js }
         expect(assigns(:question)).to eq @question
       end
     end
