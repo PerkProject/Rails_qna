@@ -1,0 +1,4 @@
+li.list-group-item
+  - if @object == 'everywhere'
+    p answer
+  = link_to object.body, question_path(object.question) + "#answer-row-#{object.id}" 

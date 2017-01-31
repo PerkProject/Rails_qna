@@ -1,0 +1,4 @@
+li.list-group-item
+  - if @object == 'everywhere'
+    p user
+  = object.email.split('@').first

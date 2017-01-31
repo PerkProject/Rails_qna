@@ -1,0 +1,4 @@
+li.list-group-item
+  - if @object == 'everywhere'
+    p question
+  = link_to object.title, question_path(object)
