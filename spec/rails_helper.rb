@@ -17,7 +17,24 @@ OmniAuth.config.logger = Rails.logger
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    # Default to deletion strategy for all specs
+    DatabaseCleaner.strategy = :deletion
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.append_after(:each) do
+    DatabaseCleaner.clean
+  end
 
   config.infer_spec_type_from_file_location!
 

@@ -162,9 +162,12 @@ GEM
     hashie (3.4.6)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
+    innertube (1.1.0)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
+    joiner (0.3.4)
+      activerecord (>= 4.1.0)
     jquery-rails (4.2.2)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -203,6 +206,7 @@ GEM
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
+    middleware (0.1.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -211,6 +215,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mysql2 (0.4.5)
     nenv (0.3.0)
     nested_form (0.3.2)
     nio4r (1.2.1)
@@ -305,6 +310,7 @@ GEM
     request_store (1.3.2)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    riddle (2.1.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -384,6 +390,13 @@ GEM
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
+    thinking-sphinx (3.3.0)
+      activerecord (>= 3.1.0)
+      builder (>= 2.1.2)
+      innertube (>= 1.0.2)
+      joiner (>= 0.2.0)
+      middleware (>= 0.1.0)
+      riddle (>= 2.0.0)
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
@@ -450,6 +463,7 @@ DEPENDENCIES
   launchy
   letter_opener
   listen (~> 3.0.5)
+  mysql2
   nested_form
   oj
   oj_mimic_json
@@ -481,6 +495,7 @@ DEPENDENCIES
   sprockets (= 3.6.3)
   terminal-notifier-guard
   therubyracer
+  thinking-sphinx
   turbolinks (~> 5)
   twitter-bootstrap-rails
   tzinfo-data
