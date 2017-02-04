@@ -1,0 +1,8 @@
+.comment
+  .div id="comment_#{comment.id}"
+  span.comment-body= comment.content
+  br
+  - if can?(:destroy, comment)
+    = link_to comment, method: :delete, remote: true,
+            data: {confirm: 'Are you sure?'}, class: 'comment-delete' do
+      = 'remove'

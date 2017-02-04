@@ -1,0 +1,9 @@
+- votable_klass = votable.class.name.downcase
+.voting
+ div class="#{votable_klass}-errors"
+ div class="#{votable_klass}-rating"= "Rating: #{votable.rating}"
+ - if can?(:vote, votable)
+    = link_to '+', polymorphic_path([:voteup, votable]), method: :post, remote: true, class: "vote-#{votable_klass}-link btn btn-default", data: { type: :json }
+    = link_to '-', polymorphic_path([:votedown, votable]), method: :post, remote: true, class: "vote-#{votable_klass}-link btn btn-default", data: { type: :json }
+    = link_to 'cancel', polymorphic_path([:votedel, votable]), method: :delete, remote: true, class: "vote-#{votable_klass}-link btn btn-default", data: { type: :json }
+

@@ -1,0 +1,17 @@
+= nested_form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|
+  .form-group
+    =f.label :title, 'Edit your question title:'
+    =f.text_field :title, class: 'form-control'
+  .form-group
+    =f.label :body, 'Edit your question:'
+    =f.text_area :body, class: 'form-control'
+  .form-group
+    = f.fields_for :attachments do |a|
+      -if a.object.new_record?
+        = a.label :file
+        = a.object.class
+        = a.file_field :file
+        = a.link_to_remove 'remove'
+      =f.link_to_add 'add file', :attachments
+    =f.submit 'Save', class: 'btn btn-default'
+    =link_to "Cancel", "#", class: "btn btn-default cancel"

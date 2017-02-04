@@ -1,0 +1,8 @@
+-if can?(:edit, question)
+  = link_to 'edit question', '#', id: 'edit-question-link'
+  |  |
+-if can?(:destroy, question)
+  =link_to 'delete question', question_path(question), method: :delete, data: { confirm: 'You are sure?' }
+  |  |
+- if user_signed_in?
+  = link_to 'add a comment', new_question_comment_path(question), remote: true

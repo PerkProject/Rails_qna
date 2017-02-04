@@ -1,0 +1,7 @@
+li.list-group-item
+  - if @object == 'everywhere'
+    p comment
+  - if object.commentable_type == 'Question'
+    = link_to object.content, question_path(object.commentable_id) + "#comment-#{object.id}"
+  - else
+    = link_to object.content, question_path(object.commentable.question_id) + "#comment-#{object.id}"

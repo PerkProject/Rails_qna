@@ -1,0 +1,34 @@
+- question_user_id = @data['question_user_id']
+- answer_user_id = @data['answer_user_id']
+- answer = @data['answer']
+- attachments = @data['answer_attachments']
+
+tr id="answer-#{answer.id}"
+  td.best-column
+  td 
+    div id="answer-#{answer.id}-body"
+      = answer.body
+      = gon.current_user
+    .answer-buttons
+      -if gon.current_user_id == question_user_id
+        a> href="/answers/#{answer.id}/make_best" data-method="patch" data-remote="true" id='mark-as-best-link'  rel="nofollow" mark as best
+        | |
+      -if gon.current_user_id == answer_user_id
+        a<> href="/answers/#{answer.id}/edit" data-remote="true" class="edit-answer-link"   edit answer
+        | |
+        a<> href="/answers/#{answer.id}" data-remote="true" data-method="delete" data-confirm="Sure?" class="delete-answer-link"   delete answer
+        |
+      .answer-rating
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=-1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" - 
+        span id="answer-#{answer.id}-rating"  0 
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" + 
+      ul
+        div id="answer-#{answer.id}-attachments"
+          - for a in attachments
+            li
+              a href="#{a.file.url}" #{fileName(a.file.url)}
+              -if gon.current_user_id == answer_user_id
+                a href="/attachments/#{a.id}" data-remote="true" data-method="delete" data-confirm="You are sure?" rel="nofollow"  [x]
+    .div id="Answer-#{answer.id}-comments"

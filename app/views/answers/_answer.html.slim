@@ -1,0 +1,19 @@
+- if answer.persisted?
+  tr id="answer-#{answer.id}"
+    td.best-column
+      = render 'answers/best_answers' if answer.best?
+    td
+      div id="answer-#{answer.id}-body"
+        = answer.body
+      .answer-buttons
+        = render 'answers/buttons', answer: answer
+      .vote_answer id="vote_answer-#{answer.id}"
+        = render partial: 'votes/voting', locals: { votable: answer }
+      - if answer.attachments.present?
+        ul
+        div id="answer-#{answer.id}-attachments"
+           = render answer.attachments
+
+      div id="Answer-#{answer.id}-comments" class="answer-comments"
+        = render answer.comments
+

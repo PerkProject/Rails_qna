@@ -1,0 +1,9 @@
+<% if @subscription.errors.any? %>
+  <% @subscription.errors.full_messages.each do |message| %>
+    $('#subscription').before('<%= j message %>')
+  <% end %>
+<% else %>
+  $('#button_subscribe').hide();
+  $('div.subscription').prepend('<%= link_to "cancel subscription", subscription_path(@subscription), method: :delete, remote: true, id: "button_unsubscribe"%>');
+  $('div.question').prepend('<b class="subscribed"> you are subscribed on this question </b>')
+<% end %>

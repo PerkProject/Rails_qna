@@ -1,0 +1,9 @@
+ul.nav.navbar-nav.pull-left
+  = form_tag search_index_path, method: :get, class: 'navbar-form navbar-left' do
+    li.pull-left
+      = submit_tag 'Search ', class: 'btn btn-default'
+    li.pull-left
+      = text_field_tag :query, @query, placeholder: 'Something', class: 'form-control'
+    lu.pull-left
+      ' in
+      = select_tag :object, options_for_select(Search::OBJECTS, @object), class: 'form-control'

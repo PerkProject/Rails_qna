@@ -35,3 +35,10 @@ db/sphinx
 # Ignore application configuration
 /config/application.yml
 .zeus.sock
+=======
+/public/uploads
+
+dump.rdb
+db/sphinx
+config/*sphinx.conf
+

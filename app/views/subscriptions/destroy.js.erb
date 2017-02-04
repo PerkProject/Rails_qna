@@ -1,0 +1,3 @@
+$('#button_unsubscribe').remove()
+$('div.subscription').prepend('<%= button_to "subscribe", question_subscriptions_path(@subscription.question), remote: true, id: "button_subscribe"%>');
+$('b.subscribed').remove()

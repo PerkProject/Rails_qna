@@ -26,13 +26,55 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'jquery-turbolinks'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'slim-rails'
+gem 'devise'
+gem 'devise-bootstrap-views'
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'cocoon'
+gem 'skim'
+gem 'gon'
+gem 'sprockets', '3.6.3'
+gem 'nested_form'
+gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'cancancan'
+gem 'pundit'
+gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
+gem 'sidekiq'
+gem 'whenever', :require => false
+gem 'sinatra', :require => nil
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
+  gem 'faker'
+  gem 'rails-controller-testing'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'fuubar'
+  gem 'json_spec'
+  #gem 'plymouth'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
@@ -42,15 +84,22 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-end
+  gem 'spring-commands-rspec'
 
-group :test, :development do
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-end
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 
-group :test do
-  gem 'shoulda-matchers'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
+  gem 'guard-bundler', require: false
+  gem 'guard-rails', require: false
+  gem 'guard-rspec', require: false
+  gem 'guard-spring', require: false
+  gem 'guard-livereload', require: false
+  gem 'rack-livereload'
+  gem 'terminal-notifier-guard', require: false
+  gem 'guard-rubocop', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
