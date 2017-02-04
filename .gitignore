@@ -19,3 +19,19 @@
 /config/database.yml
 .idea
 tmp
+
+config/database.yml
+
+# Ignore uploaded files
+/public/system
+/public/tmp
+/public/uploads
+/public/spec
+
+dump.rdb
+config/*.sphinx.conf
+db/sphinx
+
+# Ignore application configuration
+/config/application.yml
+.zeus.sock
