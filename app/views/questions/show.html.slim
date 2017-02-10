@@ -1,36 +1,37 @@
-h1#caption= @question.title
-#question data-id="#{@question.id}"
-  #question-body
-    p= @question.body
-    #question-buttons
-    = render 'buttons', question: @question
-    .div id= "question-#{@question.id}-rating"
-      = render partial: 'votes/voting', locals: { votable: @question }
-  = render 'edit_question_form', question: @question
-  |comments:
-  .div id="Question-#{@question.id}-comments" class = 'question-comments'
-    = render @question.comments
-  .div id="question-#{@question.id}-attachments" class = 'question-attachments'
-    = render 'attachments', question: @question
-  .div id="question-#{@question.id}-subscriptions" class = 'question-subscriptions'
-    = render 'subscriptions/subscription', question: @question
-  .answers
-    table.table.table#answers
-      tbody
-        = render @answers
-  = render 'common/errors', resource: @answer
+-cache [can?(:vote, @question), user_signed_in?, can?(:destroy, @question), can?(:edit, @question), can?(:create, Subscription) && can?(:destroy, Subscription), @question]
+ h1#caption= @question.title
+ #question data-id="#{@question.id}"
+   #question-body
+     p= @question.body
+     #question-buttons
+     = render 'buttons', question: @question
+     .div id= "question-#{@question.id}-rating"
+       = render partial: 'votes/voting', locals: { votable: @question }
+   = render 'edit_question_form', question: @question
+   |comments:
+   .div id="Question-#{@question.id}-comments" class = 'question-comments'
+     = render @question.comments
+   .div id="question-#{@question.id}-attachments" class = 'question-attachments'
+     = render 'attachments', question: @question
+   .div id="question-#{@question.id}-subscriptions" class = 'question-subscriptions'
+     = render 'subscriptions/subscription', question: @question
+   .answers
+     table.table.table#answers
+       tbody
+         = render @answers
+   = render 'common/errors', resource: @answer
 
-  .create-answers
-    - if user_signed_in?
-      .offset-xs-4.col-xs-8
-      = form_for [@question, @answer], remote: true do |f|
-        .form-group
-          = f.label :body, 'Your answer'
-          .answer-errors
-          = f.text_area :body, class: "form-control"
-          p Attachments:
-          p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
-          = f.submit 'Create answer', class: "btn btn-info float-xs-right"
+   .create-answers
+     - if user_signed_in?
+       .offset-xs-4.col-xs-8
+       = form_for [@question, @answer], remote: true do |f|
+         .form-group
+           = f.label :body, 'Your answer'
+           .answer-errors
+           = f.text_area :body, class: "form-control"
+           p Attachments:
+           p= link_to_add_association 'Add file', f, :attachments, partial: 'attachments/fields'
+           = f.submit 'Create answer', class: "btn btn-info float-xs-right"
 
 
-  = link_to "Back to all Questions", questions_path, class: "btn btn-info"
+   = link_to "Back to all Questions", questions_path, class: "btn btn-info"
