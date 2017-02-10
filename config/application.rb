@@ -28,7 +28,7 @@ module Qna
       g.template_engine :slim
       g.helper false
     end
-
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes}
     # config.action_cable.url = 'ws://localhost:3000'
   end
 end
