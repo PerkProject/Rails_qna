@@ -12,7 +12,7 @@ set :deploy_user, 'deployer'
 append :linked_files, "config/database.yml", ".env", "config/production.sphinx.conf"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "vendor/bundle", "public/uploads"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "vendor/bundle", "public/uploads", 'db/sphinx'
 
 namespace :deploy do
 
